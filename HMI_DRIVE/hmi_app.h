@@ -4,6 +4,7 @@
 #include "hmi_user_uart.h"
 #include "hmi_driver.h"
 #include "cmd_process.h"
+#include "stdbool.h"
 
 #define	CH_MAX	13
 #define	CH_ON		1
@@ -35,6 +36,20 @@ typedef struct
 		int8_t	ch_bar_ID[CH_MAX];	
 	
 }	TIME_INFO, *PTIME_INFO;
+
+
+// .内部只能定义，例化需要在 mian 函数文件里
+ typedef	struct{
+ 
+		float		on_time_stamp;
+		float		off_time_stamp;
+		bool		io_sta;
+		bool		io_last_sta;
+		int8_t	io_bar_ID;
+
+ }IO_INFO;
+ 
+
 
 void	UpdateUI(PTIME_INFO info);
 void	GpioInit(void);

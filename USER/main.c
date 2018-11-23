@@ -11,6 +11,9 @@
 int16_t test_value;
 //PTIME_INFO	*ch_time; 
 TIME_INFO		ch_time;
+
+IO_INFO	Port_Information[40];
+
 long task2_num=0;
 
 uint8 cmd_buffer[CMD_MAX_SIZE];							 //指令缓存
@@ -83,6 +86,7 @@ int main(void)
 	uart_init(115200);   //串口初始化
 	LED_Init();         //LED初始化	
 	time_info_init();
+	
 	
 	OSInit(&err);		    //初始化UCOSIII
 	OS_CRITICAL_ENTER();	//进入临界区			 
@@ -191,18 +195,24 @@ void start_task(void *p_arg)
 	OSTaskDel((OS_TCB*)0,&err);	//删除start_task任务自身
 }
 
-
-void time_info_init(void)
+//**********************************************//
+//端口信息初始化
+//输入： void
+//返回： void
+//**********************************************//
+void time_info_init(void)										
 {
 		int8_t	temp;
-	
-//		ch_time -> cnt_1000ms = 0;
-//		ch_time -> cnt_100ms	 = 0;
-//		for( temp = 0; temp < CH_MAX;	temp++ )
-//		{
-//				ch_time -> ch_sta[temp] = CH_OFF;
-//				ch_time -> ch_on_time[temp] = 0.0;
-//		}
+
+		for( temp = 0; temp < 40; temp++ ){
+				 
+			Port_Information[temp].io_last_sta    = false;
+			Port_Information[temp].io_sta			    = false;
+			Port_Information[temp].on_time_stamp  = 0.0;
+			Port_Information[temp].off_time_stamp = 0.0;
+//			Port_Information[temp].io_bar_ID = 0;	
+		
+		}
 }
 
 /*
@@ -213,10 +223,56 @@ void time_info_init(void)
 void gpio_sta_read(void)
 {
 	uint8_t		i;
-	uint16_t	gpiod_data, gpioe_data, gpioc_data;
+	uint16_t	gpio_data_E, gpio_data_A, gpio_data_D, gpio_data;
 	uint16_t	temp;
 	uchar ch_tim_buf[12] = {0} ;
 	
+	gpio_data_A = GPIO_ReadInputData(GPIOA);	
+	gpio_data_D = GPIO_ReadInputData(GPIOD);
+	gpio_data_E = GPIO_ReadInputData(GPIOE);	
+	
+	Port_Information[0].io_sta =  (gpio_data_D >> 7)  & 0x0001;				//通道0输入端口
+	Port_Information[1].io_sta =  (gpio_data_D >> 5)  & 0x0001;				//通道1输入端口
+	Port_Information[2].io_sta =  (gpio_data_D >> 3)  & 0x0001;				//通道2输入端口
+	Port_Information[3].io_sta =  (gpio_data_D >> 1)  & 0x0001;				//通道3输入端口
+	Port_Information[4].io_sta =  (gpio_data_D >> 15) & 0x0001;				//通道4输入端口
+	Port_Information[5].io_sta =  (gpio_data_D >> 13) & 0x0001;				//通道5输入端口
+	Port_Information[6].io_sta =  (gpio_data_D >> 11) & 0x0001;				//通道6输入端口
+	Port_Information[7].io_sta =  (gpio_data_D >> 9)  & 0x0001;				//通道7输入端口
+	Port_Information[8].io_sta =  (gpio_data_E >> 7)  & 0x0001;				//通道8输入端口
+	Port_Information[9].io_sta =  (gpio_data_E >> 4)  & 0x0001;				//通道9输入端口
+	Port_Information[10].io_sta = (gpio_data_E >> 3)  & 0x0001;				//通道10输入端口
+	Port_Information[11].io_sta = (gpio_data_A >> 6)  & 0x0001;				//通道11输入端口
+	Port_Information[12].io_sta = (gpio_data_A >> 5)  & 0x0001;				//通道12输入端口	
+	Port_Information[13].io_sta = (gpio_data_A)  			& 0x0001;				//通道13输入端口	
+	Port_Information[14].io_sta = (gpio_data_E >> 14) & 0x0001;			  //通道14输入端口
+	Port_Information[15].io_sta = (gpio_data_E >> 12) & 0x0001;			  //通道15输入端口
+	Port_Information[16].io_sta = (gpio_data_E >> 10) & 0x0001;				//通道16输入端口	
+	Port_Information[17].io_sta = (gpio_data_D >> 6)  & 0x0001;				//通道17输入端口
+	Port_Information[18].io_sta = (gpio_data_D >> 4)  & 0x0001;				//通道18输入端口	
+	Port_Information[19].io_sta = (gpio_data_D >> 2)  & 0x0001;				//通道19输入端口
+	Port_Information[20].io_sta = (gpio_data_D)  			& 0x0001;				//通道20输入端口
+	Port_Information[21].io_sta = (gpio_data_D >> 14) & 0x0001;				//通道21输入端口
+	Port_Information[22].io_sta = (gpio_data_D >> 12) & 0x0001;				//通道22输入端口
+	Port_Information[23].io_sta = (gpio_data_D >> 10) & 0x0001;				//通道23输入端口	
+	Port_Information[24].io_sta = (gpio_data_D >> 8)  & 0x0001;				//通道24输入端口	
+	Port_Information[25].io_sta = (gpio_data_E >> 6)  & 0x0001;				//通道25输入端口
+	Port_Information[26].io_sta = (gpio_data_E >> 5)  & 0x0001;				//通道26输入端口
+	Port_Information[27].io_sta = (gpio_data_E)       & 0x0001;				//通道27输入端口
+	Port_Information[28].io_sta = (gpio_data_A >> 7)  & 0x0001;				//通道28输入端口
+	Port_Information[29].io_sta = (gpio_data_A >> 2)  & 0x0001;				//通道29输入端口
+	Port_Information[30].io_sta = (gpio_data_A >> 1)  & 0x0001;				//通道30输入端口
+	Port_Information[31].io_sta = (gpio_data_E >> 13) & 0x0001;				//通道31输入端口	
+	Port_Information[32].io_sta = (gpio_data_E >> 9)  & 0x0001;				//通道32输入端口
+	Port_Information[33].io_sta = (gpio_data_E >> 2)  & 0x0001;				//通道33输入端口
+	Port_Information[34].io_sta = (gpio_data_E >> 1)  & 0x0001;				//通道34输入端口
+	Port_Information[35].io_sta = (gpio_data_A >> 4)  & 0x0001;				//通道35输入端口	
+	Port_Information[36].io_sta = (gpio_data_A >> 3)  & 0x0001;				//通道36输入端口	
+	Port_Information[37].io_sta = (gpio_data_E >> 15) & 0x0001;				//通道37输入端口
+	Port_Information[38].io_sta = (gpio_data_E >> 11) & 0x0001;				//通道38输入端口	
+	Port_Information[39].io_sta = (gpio_data_E >> 8)  & 0x0001;				//通道39输入端口	
+
+/*
 	ch_time.ch_sta[0]  =  GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0);
 	ch_time.ch_sta[1]  =  GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_1);
 	ch_time.ch_sta[2]  =  GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_2);
@@ -230,8 +286,6 @@ void gpio_sta_read(void)
 	ch_time.ch_sta[10] =  GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_3);
 	ch_time.ch_sta[11] =  GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_4);
 	ch_time.ch_sta[12] =  GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_5);
-//	gpioe_data = GPIO_ReadInputData(GPIOE);
-//	gpioc_data = GPIO_ReadInputData(GPIOC) & 0x0f;
 	
 	
 	
@@ -250,17 +304,14 @@ void gpio_sta_read(void)
 			}
 			ch_time.ch_sta[i] = temp;
 			
-			
-//			if( ((gpiod_data >> i) & 0x01) && (!ch_time.ch_sta[i]) )
-//			{
-//					ch_time.ch_on_time[i] = (ch_time.cnt_1000ms + ch_time.cnt_100ms);
-//					ch_time.ch_sta[i] = CH_ON;
-//			}
 	}	
+*/
 
 }
 
-//task1任务函数
+//*********************************************//
+//touchpad CMD_handler,触摸屏命令处理任务//
+//*********************************************//
 void task1_task(void *p_arg)
 {
 	u8 task1_num=0;
