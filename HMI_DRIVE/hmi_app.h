@@ -43,15 +43,19 @@ typedef struct
  
 		float		on_time_stamp;
 		float		off_time_stamp;
+		uchar 	on_time_string[12];
+		uchar		off_time_string[12];
 		bool		io_sta;
 		bool		io_last_sta;
-		int8_t	io_bar_ID;
+		int8_t	on_text_ID;
+		int8_t	off_text_ID;
 
  }IO_INFO;
  
 
 
 void	UpdateUI(PTIME_INFO info);
+void  Fresh_GUI(IO_INFO info[], int8_t	size);
 void	GpioInit(void);
 void	GpioFlash(void);	
 

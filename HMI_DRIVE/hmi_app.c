@@ -17,14 +17,6 @@ static  int update_en = 0;									 //更新标记
 static	int	flash_en = 0;
 static	int	cnt_10ms = 0;
 
-//static	float   ch_tim[42]  = {0};
-//static	uint16	ch_sta[42]	=	{0};
-
-//static uint16_t	gpiod_data;
-//static uint16_t	gpioe_data;
-//static uint16_t	gpioc_data;
-//static int	gpio_en	=	0;
-
 
 /*! 
  *  \brief  消息处理流程
@@ -172,18 +164,44 @@ void SetTextValueFloat(uint16 screen_id, uint16 control_id,float value)
 	SetTextValue(screen_id,control_id,buffer);
 }
 
+void Fresh_GUI( IO_INFO info[], int8_t	size )
+{
+	int8_t cnt_1000ms, cnt_100ms;
+	int8_t i ;
+//	SetTextValueInt32( 0, 65, info->cnt_1000ms );				//更新时间进度条数值
+//	SetProgressValue(0, progress_bar_ID, info -> cnt_1000ms);		//更新时间进度条，每次刷新更新1000ms
+
+	BatchBegin(0);
+	for( i = 0; i < size; i++ ){
+		
+		if((info[i].io_sta == true)	&& (info[i].io_last_sta == false)){		     //端口导通
+			
+			info[i].on_time_stamp = (10*cnt_1000ms + cnt_100ms) / 10.0;					 //计算时间，单位0.1s
+			sprintf(info[i].on_time_string,"%.1f",info[i].on_time_stamp );			 //将时间戳转换为字符串
+			BatchSetText(info[i].on_text_ID, info[i].on_time_string);						 //在相应的ID显示时间字符串
+			info[i].io_last_sta = true;																					 //更新上次端口值
+		
+		}else	if( (info[i].io_sta == false)	&& (info[i].io_last_sta == true) ){
+		
+							info[i].off_time_stamp = (10*cnt_1000ms + cnt_100ms) / 10.0;
+							sprintf(info[i].off_time_string,"%.1f",info[i].off_time_stamp );
+							BatchSetText(info[i].off_text_ID, info[i].off_time_string);
+							info[i].io_last_sta = false;
+		}
+	}
+	BatchEnd();
+}
+
 void UpdateUI( PTIME_INFO info )
 {
 	int i = 0;
 	uchar ch_tim_buf[12] = {0} ;
 //	current_screen_id = 0;		//调试添加语句
 	
-	SetTextValueInt32( 0, 65, info->cnt_1000ms );
+	SetTextValueInt32( 0, 65, info->cnt_1000ms );				//更新时间进度条数值
+	SetProgressValue(0, progress_bar_ID, info -> cnt_1000ms);		//更新时间进度条，每次刷新更新1000ms
 	
-//	GUI_RectangleFill(221+info->cnt_1000ms, 109, 250+info->cnt_1000ms,125);
-//	SetProgressValue(0, 10, info->cnt_100ms);
-//	SetProgressValue(0, 23, info->cnt_100ms);
-//	SetProgressValue(0, progress_bar_ID, info -> cnt_100ms);		//更新时间进度条，每次刷新更新0.5s
+	
 	
 	BatchBegin(0);
 	

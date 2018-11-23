@@ -12,6 +12,16 @@ int16_t test_value;
 //PTIME_INFO	*ch_time; 
 TIME_INFO		ch_time;
 
+uint8 ON_TEXT_ID[40]  = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+												 11,12,13,14,15,16,17,18,19,20,
+												 21,22,23,24,25,26,27,28,29,30,
+												 31,32,33,34,35,36,37,38,39,40};
+
+uint8 OFF_TEXT_ID[40] = {41,42,43,44,45,46,47,48,49,50,
+												 51,52,53,54,55,56,57,58,59,60,
+												 61,62,63,64,65,66,67,68,69,70,
+												 71,72,73,74,75,76,77,78,79,80};
+
 IO_INFO	Port_Information[40];
 
 long task2_num=0;
@@ -81,10 +91,10 @@ int main(void)
 	OS_ERR err;
 	CPU_SR_ALLOC();
 	
-	delay_init(168);  //时钟初始化
+	delay_init(168); 		  //时钟初始化
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);//中断分组配置
-	uart_init(115200);   //串口初始化
-	LED_Init();         //LED初始化	
+	uart_init(115200);    //串口初始化
+	LED_Init();           //LED初始化	
 	time_info_init();
 	
 	
@@ -210,8 +220,8 @@ void time_info_init(void)
 			Port_Information[temp].io_sta			    = false;
 			Port_Information[temp].on_time_stamp  = 0.0;
 			Port_Information[temp].off_time_stamp = 0.0;
-//			Port_Information[temp].io_bar_ID = 0;	
-		
+			Port_Information[temp].on_text_ID  = ON_TEXT_ID[temp];					//屏幕导通ID初始化
+			Port_Information[temp].off_text_ID = OFF_TEXT_ID[temp];					//屏幕关断ID初始化
 		}
 }
 
@@ -273,21 +283,6 @@ void gpio_sta_read(void)
 	Port_Information[39].io_sta = (gpio_data_E >> 8)  & 0x0001;				//通道39输入端口	
 
 /*
-	ch_time.ch_sta[0]  =  GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0);
-	ch_time.ch_sta[1]  =  GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_1);
-	ch_time.ch_sta[2]  =  GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_2);
-	ch_time.ch_sta[3]  =  GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_3);
-	ch_time.ch_sta[4]  =  GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_4);
-	ch_time.ch_sta[5]  =  GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_5);
-	ch_time.ch_sta[6]  =  GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_6);
-	ch_time.ch_sta[7]  =  GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_0);
-	ch_time.ch_sta[8]  =  GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_1);
-	ch_time.ch_sta[9]  =  GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_2);
-	ch_time.ch_sta[10] =  GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_3);
-	ch_time.ch_sta[11] =  GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_4);
-	ch_time.ch_sta[12] =  GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_5);
-	
-	
 	
 	for( i = 0; i < 10; i++ )								
 	{	
@@ -347,8 +342,8 @@ void task2_task(void *p_arg)
 		LED1 = ~LED1;
 		LED3 = ~LED3;
 		gpio_sta_read();
-		UpdateUI( &ch_time );
-//		SetTextValueInt32( 0, 65, ch_time.cnt_1000ms );
+//		UpdateUI( &ch_time );
+		Fresh_GUI(Port_Information, 40);
 		OSTimeDlyHMSM(0,0,0,400,OS_OPT_TIME_HMSM_STRICT,&err); //延时500ms
 	}
 }
