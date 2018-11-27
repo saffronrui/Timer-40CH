@@ -194,70 +194,70 @@ void Fresh_GUI( IO_INFO info[], int8_t	size )
 
 void UpdateUI( PTIME_INFO info )
 {
-	int i = 0;
-	uchar ch_tim_buf[12] = {0} ;
-//	current_screen_id = 0;		//调试添加语句
-	
-	SetTextValueInt32( 0, 65, info->cnt_1000ms );				//更新时间进度条数值
-	SetProgressValue(0, progress_bar_ID, info -> cnt_1000ms);		//更新时间进度条，每次刷新更新1000ms
-	
-	
-	
-	BatchBegin(0);
-	
-	if( info ->ch_sta[0] == CH_ON)	
-			BatchSetProgressValue(CH1_bar_ID, info -> cnt_1000ms);
-	if( info ->ch_sta[1] == CH_ON)	
-			BatchSetProgressValue(CH2_bar_ID, info -> cnt_1000ms);
-	if( info ->ch_sta[2] == CH_ON)	
-			BatchSetProgressValue(CH3_bar_ID, info -> cnt_1000ms);
-	if( info ->ch_sta[3] == CH_ON)	
-			BatchSetProgressValue(CH4_bar_ID, info -> cnt_1000ms);
-	if( info ->ch_sta[4] == CH_ON)	
-			BatchSetProgressValue(CH5_bar_ID, info -> cnt_1000ms);
-	if( info ->ch_sta[5] == CH_ON)	
-			BatchSetProgressValue(CH6_bar_ID, info -> cnt_1000ms);
-	if( info ->ch_sta[6] == CH_ON)	
-			BatchSetProgressValue(CH7_bar_ID, info -> cnt_1000ms);
-	if( info ->ch_sta[7] == CH_ON)	
-			BatchSetProgressValue(CH8_bar_ID, info -> cnt_1000ms);
-	if( info ->ch_sta[8] == CH_ON)	
-			BatchSetProgressValue(CH9_bar_ID, info -> cnt_1000ms);
-	if( info ->ch_sta[9] == CH_ON)	
-			BatchSetProgressValue(CH10_bar_ID, info -> cnt_1000ms);
-	if( info ->ch_sta[10] == CH_ON)	
-			BatchSetProgressValue(CH11_bar_ID, info -> cnt_1000ms);
-	if( info ->ch_sta[11] == CH_ON)	
-			BatchSetProgressValue(CH12_bar_ID, info -> cnt_1000ms);
-	if( info ->ch_sta[12] == CH_ON)	
-			BatchSetProgressValue(CH13_bar_ID, info -> cnt_1000ms);	
-	BatchEnd();
+//	int i = 0;
+//	uchar ch_tim_buf[12] = {0} ;
+////	current_screen_id = 0;		//调试添加语句
+//	
+//	SetTextValueInt32( 0, 65, info->cnt_1000ms );				//更新时间进度条数值
+//	SetProgressValue(0, progress_bar_ID, info -> cnt_1000ms);		//更新时间进度条，每次刷新更新1000ms
+//	
+//	
+//	
+//	BatchBegin(0);
+//	
+//	if( info ->ch_sta[0] == CH_ON)	
+//			BatchSetProgressValue(CH1_bar_ID, info -> cnt_1000ms);
+//	if( info ->ch_sta[1] == CH_ON)	
+//			BatchSetProgressValue(CH2_bar_ID, info -> cnt_1000ms);
+//	if( info ->ch_sta[2] == CH_ON)	
+//			BatchSetProgressValue(CH3_bar_ID, info -> cnt_1000ms);
+//	if( info ->ch_sta[3] == CH_ON)	
+//			BatchSetProgressValue(CH4_bar_ID, info -> cnt_1000ms);
+//	if( info ->ch_sta[4] == CH_ON)	
+//			BatchSetProgressValue(CH5_bar_ID, info -> cnt_1000ms);
+//	if( info ->ch_sta[5] == CH_ON)	
+//			BatchSetProgressValue(CH6_bar_ID, info -> cnt_1000ms);
+//	if( info ->ch_sta[6] == CH_ON)	
+//			BatchSetProgressValue(CH7_bar_ID, info -> cnt_1000ms);
+//	if( info ->ch_sta[7] == CH_ON)	
+//			BatchSetProgressValue(CH8_bar_ID, info -> cnt_1000ms);
+//	if( info ->ch_sta[8] == CH_ON)	
+//			BatchSetProgressValue(CH9_bar_ID, info -> cnt_1000ms);
+//	if( info ->ch_sta[9] == CH_ON)	
+//			BatchSetProgressValue(CH10_bar_ID, info -> cnt_1000ms);
+//	if( info ->ch_sta[10] == CH_ON)	
+//			BatchSetProgressValue(CH11_bar_ID, info -> cnt_1000ms);
+//	if( info ->ch_sta[11] == CH_ON)	
+//			BatchSetProgressValue(CH12_bar_ID, info -> cnt_1000ms);
+//	if( info ->ch_sta[12] == CH_ON)	
+//			BatchSetProgressValue(CH13_bar_ID, info -> cnt_1000ms);	
+//	BatchEnd();
 
-	
-	
-	
-////	if( current_screen_id == 0 )															//文本设置和显示
+//	
+//	
+//	
+//////	if( current_screen_id == 0 )															//文本设置和显示
+//////	{
+////	SetTextValueInt32( 0, 65, test_value  );						  	//txt65，更新显示计数器
+////	SetTextValueInt32( 1, 65, test_value  );						  	//txt65，更新显示计数器
+
+////	if( info ->cnt_1000ms % 60 == 0)				// 测试蜂鸣器，正式使用时可以删除，每5min响一次
+////		SetBuzzer(0x3A);
+//////	
+////	BatchBegin(0x0000);
+////	for( i = 0; i < 20; i++ )
 ////	{
-//	SetTextValueInt32( 0, 65, test_value  );						  	//txt65，更新显示计数器
-//	SetTextValueInt32( 1, 65, test_value  );						  	//txt65，更新显示计数器
-
-//	if( info ->cnt_1000ms % 60 == 0)				// 测试蜂鸣器，正式使用时可以删除，每5min响一次
-//		SetBuzzer(0x3A);
-////	
-//	BatchBegin(0x0000);
-//	for( i = 0; i < 20; i++ )
-//	{
-//			sprintf(ch_tim_buf, "%.02f", info ->ch_on_time[i]);
-//			BatchSetText(41+i, ch_tim_buf);
-//	}
-////	BatchEnd();
-////	BatchBegin(0x0001);
-//	for( i = 0; i < 20; i++ )
-//	{
-//			sprintf(ch_tim_buf, "%.02f", info ->ch_on_time[i]);
-//			BatchSetText(41+i, ch_tim_buf);
-//	}
-//	BatchEnd();	
+////			sprintf(ch_tim_buf, "%.02f", info ->ch_on_time[i]);
+////			BatchSetText(41+i, ch_tim_buf);
+////	}
+//////	BatchEnd();
+//////	BatchBegin(0x0001);
+////	for( i = 0; i < 20; i++ )
+////	{
+////			sprintf(ch_tim_buf, "%.02f", info ->ch_on_time[i]);
+////			BatchSetText(41+i, ch_tim_buf);
+////	}
+////	BatchEnd();	
 }
 
 /*! 

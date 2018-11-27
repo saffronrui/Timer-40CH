@@ -30,10 +30,11 @@ typedef struct
 {
 		int16_t	cnt_1000ms;
 		int16_t cnt_100ms;
-		float	ch_on_time[CH_MAX];
-		int8_t	ch_sta[CH_MAX];
-		int8_t	ch_last_sta[CH_MAX];
-		int8_t	ch_bar_ID[CH_MAX];	
+		int16_t	cnt_10ms;
+//		float	ch_on_time[CH_MAX];
+//		int8_t	ch_sta[CH_MAX];
+//		int8_t	ch_last_sta[CH_MAX];
+//		int8_t	ch_bar_ID[CH_MAX];	
 	
 }	TIME_INFO, *PTIME_INFO;
 
@@ -47,8 +48,10 @@ typedef struct
 		uchar		off_time_string[12];
 		bool		io_sta;
 		bool		io_last_sta;
+		int8_t	page_ID;
 		int8_t	on_text_ID;
 		int8_t	off_text_ID;
+		int8_t	name_ID;
 
  }IO_INFO;
  

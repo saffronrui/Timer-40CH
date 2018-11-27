@@ -12,18 +12,8 @@ int16_t test_value;
 //PTIME_INFO	*ch_time; 
 TIME_INFO		ch_time;
 
-uint8 ON_TEXT_ID[40]  = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-												 11,12,13,14,15,16,17,18,19,20,
-												 21,22,23,24,25,26,27,28,29,30,
-												 31,32,33,34,35,36,37,38,39,40};
-
-uint8 OFF_TEXT_ID[40] = {41,42,43,44,45,46,47,48,49,50,
-												 51,52,53,54,55,56,57,58,59,60,
-												 61,62,63,64,65,66,67,68,69,70,
-												 71,72,73,74,75,76,77,78,79,80};
-
 IO_INFO	Port_Information[40];
-
+												 
 long task2_num=0;
 
 uint8 cmd_buffer[CMD_MAX_SIZE];							 //指令缓存
@@ -214,15 +204,213 @@ void time_info_init(void)
 {
 		int8_t	temp;
 
-		for( temp = 0; temp < 40; temp++ ){
+		for( temp = 0; temp < 40; temp++ ){					// PAGE0/PAGE1通用数据初始化
 				 
 			Port_Information[temp].io_last_sta    = false;
 			Port_Information[temp].io_sta			    = false;
 			Port_Information[temp].on_time_stamp  = 0.0;
 			Port_Information[temp].off_time_stamp = 0.0;
-			Port_Information[temp].on_text_ID  = ON_TEXT_ID[temp];					//屏幕导通ID初始化
-			Port_Information[temp].off_text_ID = OFF_TEXT_ID[temp];					//屏幕关断ID初始化
 		}
+		
+		Port_Information[0].page_ID 		= 0;				//PORT0 ID-Number Init, PAGE0
+		Port_Information[0].name_ID 		= 6;
+		Port_Information[0].on_text_ID 	= 60;
+		Port_Information[0].off_text_ID = 61;
+		
+		Port_Information[1].page_ID 		= 0;				//PORT1 ID-Number Init, PAGE0
+		Port_Information[1].name_ID 		= 9;
+		Port_Information[1].on_text_ID 	= 62;
+		Port_Information[1].off_text_ID = 63;
+		
+		Port_Information[2].page_ID 		= 0;				//PORT2 ID-Number Init, PAGE0
+		Port_Information[2].name_ID 		= 10;
+		Port_Information[2].on_text_ID 	= 64;
+		Port_Information[2].off_text_ID = 65;
+		
+		Port_Information[3].page_ID 		= 0;				//PORT3 ID-Number Init, PAGE0
+		Port_Information[3].name_ID 		= 11;
+		Port_Information[3].on_text_ID 	= 66;
+		Port_Information[3].off_text_ID = 67;
+
+		Port_Information[4].page_ID 		= 0;				//PORT4 ID-Number Init, PAGE0
+		Port_Information[4].name_ID 		= 12;
+		Port_Information[4].on_text_ID 	= 68;
+		Port_Information[4].off_text_ID = 69;
+		
+		Port_Information[5].page_ID 		= 0;				//PORT5 ID-Number Init, PAGE0
+		Port_Information[5].name_ID 		= 13;
+		Port_Information[5].on_text_ID 	= 70;
+		Port_Information[5].off_text_ID = 71;
+		
+		Port_Information[6].page_ID 		= 0;				//PORT6 ID-Number Init, PAGE0
+		Port_Information[6].name_ID 		= 14;
+		Port_Information[6].on_text_ID 	= 72;
+		Port_Information[6].off_text_ID = 73;
+		
+		Port_Information[7].page_ID 		= 0;				//PORT7 ID-Number Init, PAGE0
+		Port_Information[7].name_ID 		= 15;
+		Port_Information[7].on_text_ID 	= 74;
+		Port_Information[7].off_text_ID = 75;
+		
+		Port_Information[8].page_ID 		= 0;				//PORT8 ID-Number Init, PAGE0
+		Port_Information[8].name_ID 		= 16;
+		Port_Information[8].on_text_ID 	= 76;
+		Port_Information[8].off_text_ID = 77;
+		
+		Port_Information[9].page_ID 		= 0;				//PORT9 ID-Number Init, PAGE0
+		Port_Information[9].name_ID 		= 17;
+		Port_Information[9].on_text_ID 	= 78;
+		Port_Information[9].off_text_ID = 79;
+		
+		Port_Information[10].page_ID 			= 0;				//PORT10 ID-Number Init, PAGE0
+		Port_Information[10].name_ID 			= 18;
+		Port_Information[10].on_text_ID 	= 80;
+		Port_Information[10].off_text_ID 	= 81;
+		
+		Port_Information[11].page_ID 			= 0;				//PORT11 ID-Number Init, PAGE0
+		Port_Information[11].name_ID 			= 19;
+		Port_Information[11].on_text_ID 	= 82;
+		Port_Information[11].off_text_ID 	= 83;
+
+		Port_Information[12].page_ID 			= 0;				//PORT12 ID-Number Init, PAGE0
+		Port_Information[12].name_ID 			= 20;
+		Port_Information[12].on_text_ID 	= 84;
+		Port_Information[12].off_text_ID 	= 85;
+		
+		Port_Information[13].page_ID 			= 0;				//PORT13 ID-Number Init, PAGE0
+		Port_Information[13].name_ID 			= 21;
+		Port_Information[13].on_text_ID 	= 86;
+		Port_Information[13].off_text_ID 	= 87;
+		
+		Port_Information[14].page_ID 			= 0;				//PORT14 ID-Number Init, PAGE0
+		Port_Information[14].name_ID 			= 22;
+		Port_Information[14].on_text_ID 	= 88;
+		Port_Information[14].off_text_ID 	= 89;
+		
+		Port_Information[15].page_ID 			= 0;				//PORT15 ID-Number Init, PAGE0
+		Port_Information[15].name_ID 			= 23;
+		Port_Information[15].on_text_ID 	= 90;
+		Port_Information[15].off_text_ID 	= 91;
+
+		Port_Information[16].page_ID 			= 0;				//PORT16 ID-Number Init, PAGE0
+		Port_Information[16].name_ID 			= 24;
+		Port_Information[16].on_text_ID 	= 92;
+		Port_Information[16].off_text_ID 	= 93;
+		
+		Port_Information[17].page_ID 			= 0;				//PORT17 ID-Number Init, PAGE0
+		Port_Information[17].name_ID 			= 25;
+		Port_Information[17].on_text_ID 	= 94;
+		Port_Information[17].off_text_ID 	= 95;
+		
+		Port_Information[18].page_ID 			= 0;				//PORT18 ID-Number Init, PAGE0
+		Port_Information[18].name_ID 			= 26;
+		Port_Information[18].on_text_ID 	= 96;
+		Port_Information[18].off_text_ID 	= 97;
+
+		Port_Information[19].page_ID 			= 0;				//PORT19 ID-Number Init, PAGE0
+		Port_Information[19].name_ID 			= 27;
+		Port_Information[19].on_text_ID 	= 98;
+		Port_Information[19].off_text_ID 	= 99;
+		
+		Port_Information[20].page_ID 			= 0;				//PORT20 ID-Number Init, PAGE0
+		Port_Information[20].name_ID 			= 28;
+		Port_Information[20].on_text_ID 	= 100;
+		Port_Information[20].off_text_ID 	= 101;
+		
+		Port_Information[21].page_ID 			= 0;				//PORT21 ID-Number Init, PAGE0
+		Port_Information[21].name_ID 			= 29;
+		Port_Information[21].on_text_ID 	= 102;
+		Port_Information[21].off_text_ID 	= 103;
+		
+		Port_Information[22].page_ID 			= 1;				//PORT22 ID-Number Init, PAGE1
+		Port_Information[22].name_ID 			= 6;
+		Port_Information[22].on_text_ID 	= 60;
+		Port_Information[22].off_text_ID 	= 61;
+		
+		Port_Information[23].page_ID 			= 1;				//PORT23 ID-Number Init, PAGE1
+		Port_Information[23].name_ID 			= 9;
+		Port_Information[23].on_text_ID 	= 62;
+		Port_Information[23].off_text_ID 	= 63;
+		
+		Port_Information[24].page_ID 			= 1;				//PORT24 ID-Number Init, PAGE1
+		Port_Information[24].name_ID 			= 10;
+		Port_Information[24].on_text_ID 	= 64;
+		Port_Information[24].off_text_ID 	= 65;
+		
+		Port_Information[25].page_ID 			= 1;				//PORT25 ID-Number Init, PAGE1
+		Port_Information[25].name_ID 			= 11;
+		Port_Information[25].on_text_ID 	= 66;
+		Port_Information[25].off_text_ID 	= 67;
+		
+		Port_Information[26].page_ID 			= 1;				//PORT26 ID-Number Init, PAGE1
+		Port_Information[26].name_ID 			= 12;
+		Port_Information[26].on_text_ID 	= 68;
+		Port_Information[26].off_text_ID 	= 69;
+		
+		Port_Information[27].page_ID 			= 1;				//PORT27 ID-Number Init, PAGE1
+		Port_Information[27].name_ID 			= 3;
+		Port_Information[27].on_text_ID 	= 70;
+		Port_Information[27].off_text_ID 	= 71;
+		
+		Port_Information[28].page_ID 			= 1;				//PORT28 ID-Number Init, PAGE1
+		Port_Information[28].name_ID 			= 4;
+		Port_Information[28].on_text_ID 	= 72;
+		Port_Information[28].off_text_ID 	= 73;
+		
+		Port_Information[29].page_ID 			= 1;				//PORT29 ID-Number Init, PAGE1
+		Port_Information[29].name_ID 			= 5;
+		Port_Information[29].on_text_ID 	= 74;
+		Port_Information[29].off_text_ID 	= 75;
+
+		Port_Information[30].page_ID 			= 1;				//PORT30 ID-Number Init, PAGE1
+		Port_Information[30].name_ID 			= 13;
+		Port_Information[30].on_text_ID 	= 76;
+		Port_Information[30].off_text_ID 	= 77;
+		
+		Port_Information[31].page_ID 			= 1;				//PORT31 ID-Number Init, PAGE1
+		Port_Information[31].name_ID 			= 14;
+		Port_Information[31].on_text_ID 	= 78;
+		Port_Information[31].off_text_ID 	= 79;
+		
+		Port_Information[32].page_ID 			= 1;				//PORT32 ID-Number Init, PAGE1
+		Port_Information[32].name_ID 			= 16;
+		Port_Information[32].on_text_ID 	= 80;
+		Port_Information[32].off_text_ID 	= 81;
+		
+		Port_Information[33].page_ID 			= 1;				//PORT33 ID-Number Init, PAGE1
+		Port_Information[33].name_ID 			= 17;
+		Port_Information[33].on_text_ID 	= 82;
+		Port_Information[33].off_text_ID 	= 83;
+		
+		Port_Information[34].page_ID 			= 1;				//PORT34 ID-Number Init, PAGE1
+		Port_Information[34].name_ID 			= 18;
+		Port_Information[34].on_text_ID 	= 84;
+		Port_Information[34].off_text_ID 	= 85;
+		
+		Port_Information[35].page_ID 			= 1;				//PORT35 ID-Number Init, PAGE1
+		Port_Information[35].name_ID 			= 19;
+		Port_Information[35].on_text_ID 	= 86;
+		Port_Information[35].off_text_ID 	= 87;
+		
+		Port_Information[36].page_ID 			= 1;				//PORT36 ID-Number Init, PAGE1
+		Port_Information[36].name_ID 			= 20;
+		Port_Information[36].on_text_ID 	= 88;
+		Port_Information[36].off_text_ID 	= 89;
+		
+		Port_Information[37].page_ID 			= 1;				//PORT37 ID-Number Init, PAGE1
+		Port_Information[37].name_ID 			= 21;
+		Port_Information[37].on_text_ID 	= 90;
+		Port_Information[37].off_text_ID 	= 91;
+
+		Port_Information[38].page_ID 			= 1;				//PORT38 ID-Number Init, PAGE1
+		Port_Information[38].name_ID 			= 22;
+		Port_Information[38].on_text_ID 	= 92;
+		Port_Information[38].off_text_ID 	= 93;
+		
+		Port_Information[39].page_ID 			= 1;				//PORT39 ID-Number Init, PAGE1
+		Port_Information[39].name_ID 			= 23;
+		Port_Information[39].on_text_ID 	= 94;
+		Port_Information[39].off_text_ID 	= 95;
 }
 
 /*
@@ -317,8 +505,8 @@ void task1_task(void *p_arg)
 	
 	while(1)
 	{
-		LED0 = ~LED0;
-		LED2 = ~LED2;
+//		LED0 = ~LED0;
+//		LED2 = ~LED2;
 		size = queue_find_cmd(cmd_buffer, CMD_MAX_SIZE);
 		if(  size > 0 )												//接收到指令
 		{
@@ -339,11 +527,14 @@ void task2_task(void *p_arg)
 	
 	while(1)
 	{
+		LED0 = ~LED0;
+		LED2 = ~LED2;
 		LED1 = ~LED1;
 		LED3 = ~LED3;
 		gpio_sta_read();
 //		UpdateUI( &ch_time );
-		Fresh_GUI(Port_Information, 40);
+		Fresh_GUI(Port_Information,	40);
+		
 		OSTimeDlyHMSM(0,0,0,400,OS_OPT_TIME_HMSM_STRICT,&err); //延时500ms
 	}
 }
