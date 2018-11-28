@@ -505,8 +505,6 @@ void task1_task(void *p_arg)
 	
 	while(1)
 	{
-//		LED0 = ~LED0;
-//		LED2 = ~LED2;
 		size = queue_find_cmd(cmd_buffer, CMD_MAX_SIZE);
 		if(  size > 0 )												//接收到指令
 		{
@@ -517,7 +515,7 @@ void task1_task(void *p_arg)
 	}
 }
 
-//task2任务函数
+//task2任务函数，刷新屏幕任务
 void task2_task(void *p_arg)
 {
 
@@ -527,15 +525,13 @@ void task2_task(void *p_arg)
 	
 	while(1)
 	{
-		LED0 = ~LED0;
 		LED2 = ~LED2;
-		LED1 = ~LED1;
 		LED3 = ~LED3;
-		gpio_sta_read();
-//		UpdateUI( &ch_time );
-		Fresh_GUI(Port_Information,	40);
 		
-		OSTimeDlyHMSM(0,0,0,400,OS_OPT_TIME_HMSM_STRICT,&err); //延时500ms
+		gpio_sta_read();
+		Fresh_GUI(Port_Information,	40, ch_time.cnt_100ms);		 		//刷新屏幕
+		
+		OSTimeDlyHMSM(0,0,0,400,OS_OPT_TIME_HMSM_STRICT,&err); 		//延时400ms
 	}
 }
 

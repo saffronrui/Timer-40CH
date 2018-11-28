@@ -20,3 +20,11 @@
 1.修改屏幕刷新函数，改为 Fresh——GUI 函数
 2.去掉以前 updategui 函数功能
 3.修改PORT_INIT函数
+
+//更改记录---2018.11.27
+1.在 IO_INFO struct 结构体内部增加 page_ID \ name_ID
+2.修改 port_init函数，增加每一通道 ID 初始化过程
+
+//更改记录---2018.11.28
+1.Fresh_GUI(Port_Information,	40);---->Fresh_GUI(Port_Information,	40, ch_time.cnt_100ms);	
+2.Fresh_GUI(Port_Information,	40, ch_time.cnt_100ms)内部增加每一路开关名称的背景色变化，关断为红色，导通为绿色

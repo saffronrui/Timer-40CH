@@ -10,31 +10,12 @@
 #define	CH_ON		1
 #define	CH_OFF	0
 
-#define	progress_bar_ID	1
-
-#define	CH1_bar_ID	0
-#define	CH2_bar_ID	1
-#define	CH3_bar_ID	2
-#define	CH4_bar_ID	3
-#define	CH5_bar_ID	4
-#define	CH6_bar_ID	5
-#define	CH7_bar_ID	6
-#define	CH8_bar_ID	7
-#define	CH9_bar_ID	8
-#define	CH10_bar_ID	9
-#define	CH11_bar_ID	10
-#define	CH12_bar_ID	11
-#define	CH13_bar_ID	12
 
 typedef struct
 {
 		int16_t	cnt_1000ms;
 		int16_t cnt_100ms;
 		int16_t	cnt_10ms;
-//		float	ch_on_time[CH_MAX];
-//		int8_t	ch_sta[CH_MAX];
-//		int8_t	ch_last_sta[CH_MAX];
-//		int8_t	ch_bar_ID[CH_MAX];	
 	
 }	TIME_INFO, *PTIME_INFO;
 
@@ -58,7 +39,7 @@ typedef struct
 
 
 void	UpdateUI(PTIME_INFO info);
-void  Fresh_GUI(IO_INFO info[], int8_t	size);
+void  Fresh_GUI(IO_INFO info[], int8_t	size, int16_t	time_stp_100ms);
 void	GpioInit(void);
 void	GpioFlash(void);	
 

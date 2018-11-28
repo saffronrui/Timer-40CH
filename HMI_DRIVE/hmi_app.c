@@ -13,10 +13,6 @@ volatile uint32  timer_tick_count = 0; 			 //定时器节拍
 
 static uint16 current_screen_id = 0;				 //当前画面ID
 static long test_value = 0;								 //测试值
-static  int update_en = 0;									 //更新标记
-static	int	flash_en = 0;
-static	int	cnt_10ms = 0;
-
 
 /*! 
  *  \brief  消息处理流程
@@ -164,32 +160,65 @@ void SetTextValueFloat(uint16 screen_id, uint16 control_id,float value)
 	SetTextValue(screen_id,control_id,buffer);
 }
 
-void Fresh_GUI( IO_INFO info[], int8_t	size )
+void Fresh_GUI( IO_INFO info[], int8_t	size, int16_t	time_stp_100ms )
 {
-	int8_t cnt_1000ms, cnt_100ms;
 	int8_t i ;
-//	SetTextValueInt32( 0, 65, info->cnt_1000ms );				//更新时间进度条数值
-//	SetProgressValue(0, progress_bar_ID, info -> cnt_1000ms);		//更新时间进度条，每次刷新更新1000ms
 
-	BatchBegin(0);
-	for( i = 0; i < size; i++ ){
+	SetProgressValue(0,  5,  (int)(time_stp_100ms / 10));		//更新PAGE0时间进度条，每次刷新更新1000ms
+	SetProgressValue(1, 15,  (int)(time_stp_100ms / 10));		//更新PAGE1时间进度条，每次刷新更新1000ms	
+
+	BatchBegin(0);																													 //PAGE0批量更新
+	for( i = 0; i < 22; i++ ){
 		
 		if((info[i].io_sta == true)	&& (info[i].io_last_sta == false)){		     //端口导通
 			
-			info[i].on_time_stamp = (10*cnt_1000ms + cnt_100ms) / 10.0;					 //计算时间，单位0.1s
+			info[i].on_time_stamp = time_stp_100ms / 10.0;											 //计算时间，单位0.1s
 			sprintf(info[i].on_time_string,"%.1f",info[i].on_time_stamp );			 //将时间戳转换为字符串
 			BatchSetText(info[i].on_text_ID, info[i].on_time_string);						 //在相应的ID显示时间字符串
 			info[i].io_last_sta = true;																					 //更新上次端口值
 		
 		}else	if( (info[i].io_sta == false)	&& (info[i].io_last_sta == true) ){
 		
-							info[i].off_time_stamp = (10*cnt_1000ms + cnt_100ms) / 10.0;
+							info[i].off_time_stamp = time_stp_100ms / 10.0;
 							sprintf(info[i].off_time_string,"%.1f",info[i].off_time_stamp );
 							BatchSetText(info[i].off_text_ID, info[i].off_time_string);
 							info[i].io_last_sta = false;
 		}
 	}
 	BatchEnd();
+	
+	BatchBegin(1);																													 //PAGE1批量更新
+	for( i = 22; i < size; i++ ){
+		
+		if((info[i].io_sta == true)	&& (info[i].io_last_sta == false)){		     //端口导通
+			
+			info[i].on_time_stamp = time_stp_100ms / 10.0;											 //计算时间，单位0.1s
+			sprintf(info[i].on_time_string,"%.1f",info[i].on_time_stamp );			 //将时间戳转换为字符串
+			BatchSetText(info[i].on_text_ID, info[i].on_time_string);						 //在相应的ID显示时间字符串
+			info[i].io_last_sta = true;																					 //更新上次端口值
+		
+		}else	if( (info[i].io_sta == false)	&& (info[i].io_last_sta == true) ){
+		
+							info[i].off_time_stamp = time_stp_100ms / 10.0;
+							sprintf(info[i].off_time_string,"%.1f",info[i].off_time_stamp );
+							BatchSetText(info[i].off_text_ID, info[i].off_time_string);
+							info[i].io_last_sta = false;
+		}
+	}
+	BatchEnd();
+	
+	for( i = 0; i < size; i++ ){
+		
+		if((info[i].io_sta == true)	&& (info[i].io_last_sta == false)){		     //端口导通
+			
+				SetControlBackColor(info[i].page_ID, info[i].name_ID, 0x67E6);		 //显示绿色背景
+		
+		}else	if( (info[i].io_sta == false)	&& (info[i].io_last_sta == true) ){
+		
+				SetControlBackColor(info[i].page_ID, info[i].name_ID, 0xF980);		 //显示红色背景
+		}
+	}
+	
 }
 
 void UpdateUI( PTIME_INFO info )
@@ -278,27 +307,25 @@ void NotifyButton(uint16 screen_id, uint16 control_id, uint8  state)
 		 switch( control_id )
 		 {
 			 case	62:
-				  update_en = 0;
-					flash_en	= 0;
-					LED0 = !LED0;
+				 		LED3 = ~LED3;
+
 					break;
 			 case	63:
-				  update_en = 1;
-					LED1 = !LED1;
+						LED3 = ~LED3;
 					break;
 			 case	64:
-					test_value = 0;
-					cnt_10ms	 = 0;
-					update_en  = 0;
-					flash_en	 = 0;
+				 		LED3 = ~LED3;
+//					test_value = 0;
+//					cnt_10ms	 = 0;
+//					update_en  = 0;
+//					flash_en	 = 0;
+//					
+//					for( i = 0; i < 42; i++ )			//	数据清零
+//					{
+////							ch_sta[i] = 0;
+////							ch_tim[i] = 0;
+//					}
 					
-					for( i = 0; i < 42; i++ )			//	数据清零
-					{
-//							ch_sta[i] = 0;
-//							ch_tim[i] = 0;
-					}
-					
-//					UpdateUI();
 					break;
 			 default:
 					break;
