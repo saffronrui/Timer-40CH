@@ -26,3 +26,7 @@
 //更改记录---2018.11.28
 1.Fresh_GUI(Port_Information,	40);---->Fresh_GUI(Port_Information,	40, ch_time.cnt_100ms);	
 2.Fresh_GUI(Port_Information,	40, ch_time.cnt_100ms)内部增加每一路开关名称的背景色变化，关断为红色，导通为绿色
+
+//更改记录---2018.11.29
+1. 修改GUI刷新频率， 400ms改为200ms
+2. 增加触碰按钮功能，但是没实验，需要后续试验验证

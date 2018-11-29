@@ -12,7 +12,6 @@ extern uint8 cmd_buffer[CMD_MAX_SIZE];							 //指令缓存
 volatile uint32  timer_tick_count = 0; 			 //定时器节拍
 
 static uint16 current_screen_id = 0;				 //当前画面ID
-static long test_value = 0;								 //测试值
 
 /*! 
  *  \brief  消息处理流程
@@ -164,9 +163,29 @@ void Fresh_GUI( IO_INFO info[], int8_t	size, int16_t	time_stp_100ms )
 {
 	int8_t i ;
 
-	SetProgressValue(0,  5,  (int)(time_stp_100ms / 10));		//更新PAGE0时间进度条，每次刷新更新1000ms
-	SetProgressValue(1, 15,  (int)(time_stp_100ms / 10));		//更新PAGE1时间进度条，每次刷新更新1000ms	
+	SetProgressValue(0,  5,  (int)(time_stp_100ms / 10.0));		//更新PAGE0时间进度条，每次刷新更新1000ms
+	SetProgressValue(1, 15,  (int)(time_stp_100ms / 10.0));		//更新PAGE1时间进度条，每次刷新更新1000ms	
 
+		for( i = 0; i < size; i++ ){
+		
+		if((info[i].io_sta == true)	&& (info[i].io_last_sta == false)){		     //端口导通
+			
+			info[i].on_time_stamp = time_stp_100ms / 10.0;											 //计算时间，单位0.1s
+			sprintf(info[i].on_time_string,"%.1f",info[i].on_time_stamp );			 //将时间戳转换为字符串
+			SetTextValue(info[i].page_ID, info[i].on_text_ID, info[i].on_time_string);						 //在相应的ID显示时间字符串
+			SetControlBackColor(info[i].page_ID, info[i].name_ID, 0x67E6);
+			info[i].io_last_sta = true;																					 //更新上次端口值
+		
+		}else	if( (info[i].io_sta == false)	&& (info[i].io_last_sta == true) ){
+		
+							info[i].off_time_stamp = time_stp_100ms / 10.0;
+							sprintf(info[i].off_time_string,"%.1f",info[i].off_time_stamp );
+							SetTextValue(info[i].page_ID, info[i].off_text_ID, info[i].off_time_string);
+							SetControlBackColor(info[i].page_ID, info[i].name_ID, 0xF980);
+							info[i].io_last_sta = false;
+		}
+	}
+	/*
 	BatchBegin(0);																													 //PAGE0批量更新
 	for( i = 0; i < 22; i++ ){
 		
@@ -218,7 +237,7 @@ void Fresh_GUI( IO_INFO info[], int8_t	size, int16_t	time_stp_100ms )
 				SetControlBackColor(info[i].page_ID, info[i].name_ID, 0xF980);		 //显示红色背景
 		}
 	}
-	
+*/	
 }
 
 /*! 
@@ -240,6 +259,7 @@ void NotifyButton(uint16 screen_id, uint16 control_id, uint8  state)
 		 {
 			 case	7:
 				 		LED3 = ~LED3;
+						SetBuzzer(0x3A);				//重置提醒
 						time_info_init();				//清除记录数据，下次刷新时屏幕更新
 					break;
 			 default:
@@ -253,6 +273,7 @@ void NotifyButton(uint16 screen_id, uint16 control_id, uint8  state)
 		 {
 			 case	7:											//重置命令
 				 		LED3 = ~LED3;
+						SetBuzzer(0x3A);				//重置提醒
 						time_info_init();				//清除记录数据，下次刷新时屏幕更新
 					break;
 			 case 28:
@@ -328,9 +349,6 @@ void NotifySlider(uint16 screen_id, uint16 control_id, uint32 value)
 	//TODO: 添加用户代码
 	if(screen_id==5&&control_id==2)//滑块控制
 	{
-		test_value = value;
-
-		SetProgressValue(5,1,test_value); //更新进度条数值
 	}
 }
 
