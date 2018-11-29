@@ -221,74 +221,6 @@ void Fresh_GUI( IO_INFO info[], int8_t	size, int16_t	time_stp_100ms )
 	
 }
 
-void UpdateUI( PTIME_INFO info )
-{
-//	int i = 0;
-//	uchar ch_tim_buf[12] = {0} ;
-////	current_screen_id = 0;		//调试添加语句
-//	
-//	SetTextValueInt32( 0, 65, info->cnt_1000ms );				//更新时间进度条数值
-//	SetProgressValue(0, progress_bar_ID, info -> cnt_1000ms);		//更新时间进度条，每次刷新更新1000ms
-//	
-//	
-//	
-//	BatchBegin(0);
-//	
-//	if( info ->ch_sta[0] == CH_ON)	
-//			BatchSetProgressValue(CH1_bar_ID, info -> cnt_1000ms);
-//	if( info ->ch_sta[1] == CH_ON)	
-//			BatchSetProgressValue(CH2_bar_ID, info -> cnt_1000ms);
-//	if( info ->ch_sta[2] == CH_ON)	
-//			BatchSetProgressValue(CH3_bar_ID, info -> cnt_1000ms);
-//	if( info ->ch_sta[3] == CH_ON)	
-//			BatchSetProgressValue(CH4_bar_ID, info -> cnt_1000ms);
-//	if( info ->ch_sta[4] == CH_ON)	
-//			BatchSetProgressValue(CH5_bar_ID, info -> cnt_1000ms);
-//	if( info ->ch_sta[5] == CH_ON)	
-//			BatchSetProgressValue(CH6_bar_ID, info -> cnt_1000ms);
-//	if( info ->ch_sta[6] == CH_ON)	
-//			BatchSetProgressValue(CH7_bar_ID, info -> cnt_1000ms);
-//	if( info ->ch_sta[7] == CH_ON)	
-//			BatchSetProgressValue(CH8_bar_ID, info -> cnt_1000ms);
-//	if( info ->ch_sta[8] == CH_ON)	
-//			BatchSetProgressValue(CH9_bar_ID, info -> cnt_1000ms);
-//	if( info ->ch_sta[9] == CH_ON)	
-//			BatchSetProgressValue(CH10_bar_ID, info -> cnt_1000ms);
-//	if( info ->ch_sta[10] == CH_ON)	
-//			BatchSetProgressValue(CH11_bar_ID, info -> cnt_1000ms);
-//	if( info ->ch_sta[11] == CH_ON)	
-//			BatchSetProgressValue(CH12_bar_ID, info -> cnt_1000ms);
-//	if( info ->ch_sta[12] == CH_ON)	
-//			BatchSetProgressValue(CH13_bar_ID, info -> cnt_1000ms);	
-//	BatchEnd();
-
-//	
-//	
-//	
-//////	if( current_screen_id == 0 )															//文本设置和显示
-//////	{
-////	SetTextValueInt32( 0, 65, test_value  );						  	//txt65，更新显示计数器
-////	SetTextValueInt32( 1, 65, test_value  );						  	//txt65，更新显示计数器
-
-////	if( info ->cnt_1000ms % 60 == 0)				// 测试蜂鸣器，正式使用时可以删除，每5min响一次
-////		SetBuzzer(0x3A);
-//////	
-////	BatchBegin(0x0000);
-////	for( i = 0; i < 20; i++ )
-////	{
-////			sprintf(ch_tim_buf, "%.02f", info ->ch_on_time[i]);
-////			BatchSetText(41+i, ch_tim_buf);
-////	}
-//////	BatchEnd();
-//////	BatchBegin(0x0001);
-////	for( i = 0; i < 20; i++ )
-////	{
-////			sprintf(ch_tim_buf, "%.02f", info ->ch_on_time[i]);
-////			BatchSetText(41+i, ch_tim_buf);
-////	}
-////	BatchEnd();	
-}
-
 /*! 
  *  \brief  按钮控件通知
  *  \details  当按钮状态改变(或调用GetControlValue)时，执行此函数
@@ -300,32 +232,41 @@ void NotifyButton(uint16 screen_id, uint16 control_id, uint8  state)
 {
 	//TODO: 添加用户代码
 	
-	uint8 i = 0;
-	
-	if((screen_id == 0)&&(state == 1))
+//	uint8 i = 0;
+
+	if((screen_id == 0)&&(state == 1))				// PAGE0 按钮命令 
 	{
 		 switch( control_id )
 		 {
-			 case	62:
+			 case	7:
 				 		LED3 = ~LED3;
-
+						time_info_init();				//清除记录数据，下次刷新时屏幕更新
 					break;
-			 case	63:
+			 default:
+					break;
+		 }
+	}
+
+	if((screen_id == 1)&&(state == 1))				// PAGE1 按钮命令 
+	{
+		 switch( control_id )
+		 {
+			 case	7:											//重置命令
+				 		LED3 = ~LED3;
+						time_info_init();				//清除记录数据，下次刷新时屏幕更新
+					break;
+			 case 28:
 						LED3 = ~LED3;
 					break;
-			 case	64:
-				 		LED3 = ~LED3;
-//					test_value = 0;
-//					cnt_10ms	 = 0;
-//					update_en  = 0;
-//					flash_en	 = 0;
-//					
-//					for( i = 0; i < 42; i++ )			//	数据清零
-//					{
-////							ch_sta[i] = 0;
-////							ch_tim[i] = 0;
-//					}
-					
+			 case 30:
+						LED3 = ~LED3;
+					break;
+			 case 32:
+						LED3 = ~LED3;
+					break;
+			 case 27:										 //设备自检命令按钮
+						LED3 = ~LED3;
+						time_info_init();			 //清除记录数据，下次刷新时屏幕更新
 					break;
 			 default:
 					break;

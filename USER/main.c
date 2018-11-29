@@ -9,16 +9,15 @@
 #include "hmi_user_uart.h"
 
 int16_t test_value;
-//PTIME_INFO	*ch_time; 
+ 
 TIME_INFO		ch_time;
-
 IO_INFO	Port_Information[40];
 												 
 long task2_num=0;
 
 uint8 cmd_buffer[CMD_MAX_SIZE];							 //指令缓存
 
-void time_info_init(void);
+//void time_info_init(void);
 
 //任务优先级
 #define START_TASK_PRIO		3
@@ -85,8 +84,8 @@ int main(void)
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);//中断分组配置
 	uart_init(115200);    //串口初始化
 	LED_Init();           //LED初始化	
-	time_info_init();
-	
+	time_info_init();			//结构体参数初始化
+	SetBuzzer(0x3A);			//上电提醒
 	
 	OSInit(&err);		    //初始化UCOSIII
 	OS_CRITICAL_ENTER();	//进入临界区			 
@@ -420,25 +419,22 @@ void time_info_init(void)
 */
 void gpio_sta_read(void)
 {
-	uint8_t		i;
-	uint16_t	gpio_data_E, gpio_data_A, gpio_data_D, gpio_data;
-	uint16_t	temp;
-	uchar ch_tim_buf[12] = {0} ;
+	uint16_t	gpio_data_E, gpio_data_A, gpio_data_D;
 	
-	gpio_data_A = GPIO_ReadInputData(GPIOA);	
-	gpio_data_D = GPIO_ReadInputData(GPIOD);
-	gpio_data_E = GPIO_ReadInputData(GPIOE);	
+	gpio_data_A = GPIO_ReadInputData(GPIOA);				//读取 GPIOA 8位
+	gpio_data_D = GPIO_ReadInputData(GPIOD);				//读取 GPIOD 16位
+	gpio_data_E = GPIO_ReadInputData(GPIOE);				//读取 GPIOE 16位
 	
-	Port_Information[0].io_sta =  (gpio_data_D >> 7)  & 0x0001;				//通道0输入端口
-	Port_Information[1].io_sta =  (gpio_data_D >> 5)  & 0x0001;				//通道1输入端口
-	Port_Information[2].io_sta =  (gpio_data_D >> 3)  & 0x0001;				//通道2输入端口
-	Port_Information[3].io_sta =  (gpio_data_D >> 1)  & 0x0001;				//通道3输入端口
-	Port_Information[4].io_sta =  (gpio_data_D >> 15) & 0x0001;				//通道4输入端口
-	Port_Information[5].io_sta =  (gpio_data_D >> 13) & 0x0001;				//通道5输入端口
-	Port_Information[6].io_sta =  (gpio_data_D >> 11) & 0x0001;				//通道6输入端口
-	Port_Information[7].io_sta =  (gpio_data_D >> 9)  & 0x0001;				//通道7输入端口
-	Port_Information[8].io_sta =  (gpio_data_E >> 7)  & 0x0001;				//通道8输入端口
-	Port_Information[9].io_sta =  (gpio_data_E >> 4)  & 0x0001;				//通道9输入端口
+	Port_Information[0].io_sta  =  (gpio_data_D >> 7) & 0x0001;				//通道0输入端口
+	Port_Information[1].io_sta  =  (gpio_data_D >> 5) & 0x0001;				//通道1输入端口
+	Port_Information[2].io_sta  =  (gpio_data_D >> 3) & 0x0001;				//通道2输入端口
+	Port_Information[3].io_sta  =  (gpio_data_D >> 1) & 0x0001;				//通道3输入端口
+	Port_Information[4].io_sta  =  (gpio_data_D >> 15)& 0x0001;				//通道4输入端口
+	Port_Information[5].io_sta  =  (gpio_data_D >> 13)& 0x0001;				//通道5输入端口
+	Port_Information[6].io_sta  =  (gpio_data_D >> 11)& 0x0001;				//通道6输入端口
+	Port_Information[7].io_sta  =  (gpio_data_D >> 9) & 0x0001;				//通道7输入端口
+	Port_Information[8].io_sta  =  (gpio_data_E >> 7) & 0x0001;				//通道8输入端口
+	Port_Information[9].io_sta  =  (gpio_data_E >> 4) & 0x0001;				//通道9输入端口
 	Port_Information[10].io_sta = (gpio_data_E >> 3)  & 0x0001;				//通道10输入端口
 	Port_Information[11].io_sta = (gpio_data_A >> 6)  & 0x0001;				//通道11输入端口
 	Port_Information[12].io_sta = (gpio_data_A >> 5)  & 0x0001;				//通道12输入端口	
@@ -469,26 +465,6 @@ void gpio_sta_read(void)
 	Port_Information[37].io_sta = (gpio_data_E >> 15) & 0x0001;				//通道37输入端口
 	Port_Information[38].io_sta = (gpio_data_E >> 11) & 0x0001;				//通道38输入端口	
 	Port_Information[39].io_sta = (gpio_data_E >> 8)  & 0x0001;				//通道39输入端口	
-
-/*
-	
-	for( i = 0; i < 10; i++ )								
-	{	
-			temp = (gpiod_data >> i) & 0x01;
-			if( (temp == 0) && (ch_time.ch_sta[i]) )
-					ch_time.ch_on_time[i] = (ch_time.cnt_1000ms );
-			if( (temp > 0) && (!ch_time.ch_sta[i]) )
-			{
-					GUI_RectangleFill(200+ch_time.ch_on_time[i]*9.17, 109+i*30, 220+ch_time.cnt_1000ms*9.17,125+i*30);
-					sprintf(ch_tim_buf, "%.01f", (ch_time.cnt_1000ms*10 + ch_time.cnt_100ms) / 10.0);
-					SetFcolor(65504); 	//设置字体颜色，通过设置前景色实现
-					DisText(150+ch_time.ch_on_time[i]*9.17,109+i*30,0x00,0x02,ch_tim_buf );
-					SetFcolor(63488);		//恢复红色前景色
-			}
-			ch_time.ch_sta[i] = temp;
-			
-	}	
-*/
 
 }
 
@@ -526,12 +502,12 @@ void task2_task(void *p_arg)
 	while(1)
 	{
 		LED2 = ~LED2;
-		LED3 = ~LED3;
+//		LED3 = ~LED3;
 		
 		gpio_sta_read();
 		Fresh_GUI(Port_Information,	40, ch_time.cnt_100ms);		 		//刷新屏幕
 		
-		OSTimeDlyHMSM(0,0,0,400,OS_OPT_TIME_HMSM_STRICT,&err); 		//延时400ms
+		OSTimeDlyHMSM(0,0,0,200,OS_OPT_TIME_HMSM_STRICT,&err); 		//延时200ms
 	}
 }
 
@@ -558,7 +534,6 @@ void task1000ms_task(void *p_arg)			//	1s计时
 		while(1)
 		{
 				ch_time.cnt_1000ms ++;
-				test_value ++;
 				OSTimeDlyHMSM(0,0,1,0,OS_OPT_TIME_HMSM_STRICT,&err);	 //延时1000ms
 		}
 }

@@ -10,6 +10,7 @@
 #define	CH_ON		1
 #define	CH_OFF	0
 
+void time_info_init(void);
 
 typedef struct
 {
@@ -37,8 +38,6 @@ typedef struct
  }IO_INFO;
  
 
-
-void	UpdateUI(PTIME_INFO info);
 void  Fresh_GUI(IO_INFO info[], int8_t	size, int16_t	time_stp_100ms);
 void	GpioInit(void);
 void	GpioFlash(void);	
