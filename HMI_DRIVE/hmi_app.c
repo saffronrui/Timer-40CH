@@ -8,6 +8,7 @@
 extern uint8 cmd_buffer[CMD_MAX_SIZE];							 //指令缓存
 #define TIME_100MS 10 											 //100毫秒(10个单位)
 
+extern  int8_t	CMD_VAL;
 
 volatile uint32  timer_tick_count = 0; 			 //定时器节拍
 
@@ -239,6 +240,25 @@ void Fresh_GUI( IO_INFO info[], int8_t	size, int16_t	time_stp_100ms )
 	}
 */	
 }
+//*****************************************************//
+// Clear GUI
+// return: None
+//*****************************************************//
+void  Clear_GUI(IO_INFO info[], int8_t	size, int16_t	time_stp_100ms)
+{
+	int8_t i ;
+
+	SetProgressValue(0,  5, 0);		//清空PAGE0时间进度条
+	SetProgressValue(1, 15, 0);		//清空PAGE1时间进度条
+
+		for( i = 0; i < size; i++ ){
+			
+			info[i].on_time_stamp = 0;											 										 //计算时间，单位0.1s
+			info[i].off_time_stamp = 0;
+			SetTextValue(info[i].page_ID, info[i].on_text_ID, "---");						 //在相应的ID显示时间字符串
+			SetTextValue(info[i].page_ID, info[i].off_text_ID, "---");					 //清空控件内容
+		}
+}
 
 /*! 
  *  \brief  按钮控件通知
@@ -259,8 +279,7 @@ void NotifyButton(uint16 screen_id, uint16 control_id, uint8  state)
 		 {
 			 case	7:
 				 		LED3 = ~LED3;
-						SetBuzzer(0x3A);				//重置提醒
-						time_info_init();				//清除记录数据，下次刷新时屏幕更新
+						CMD_VAL = 0x1A;					//重置命令代号
 					break;
 			 default:
 					break;
@@ -273,8 +292,8 @@ void NotifyButton(uint16 screen_id, uint16 control_id, uint8  state)
 		 {
 			 case	7:											//重置命令
 				 		LED3 = ~LED3;
-						SetBuzzer(0x3A);				//重置提醒
-						time_info_init();				//清除记录数据，下次刷新时屏幕更新
+						CMD_VAL = 0X1A;					//重置命令代号
+
 					break;
 			 case 28:
 						LED3 = ~LED3;
@@ -287,7 +306,7 @@ void NotifyButton(uint16 screen_id, uint16 control_id, uint8  state)
 					break;
 			 case 27:										 //设备自检命令按钮
 						LED3 = ~LED3;
-						time_info_init();			 //清除记录数据，下次刷新时屏幕更新
+						CMD_VAL = 0X2A;				 //设备自检命令代号
 					break;
 			 default:
 					break;

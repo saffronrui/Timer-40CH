@@ -37,7 +37,7 @@ typedef struct
 
  }IO_INFO;
  
-
+void  Clear_GUI(IO_INFO info[], int8_t	size, int16_t	time_stp_100ms);
 void  Fresh_GUI(IO_INFO info[], int8_t	size, int16_t	time_stp_100ms);
 void	GpioInit(void);
 void	GpioFlash(void);	

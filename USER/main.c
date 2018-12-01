@@ -12,7 +12,9 @@ int16_t test_value;
  
 TIME_INFO		ch_time;
 IO_INFO	Port_Information[40];
-												 
+
+int8_t	CMD_VAL;
+
 long task2_num=0;
 
 uint8 cmd_buffer[CMD_MAX_SIZE];							 //指令缓存
@@ -203,6 +205,11 @@ void time_info_init(void)
 {
 		int8_t	temp;
 
+		CMD_VAL = 0;																// 清除命令状态字
+
+		ch_time.cnt_1000ms = 0;											// 时间基准清零
+		ch_time.cnt_100ms = 0;											// 时间基准清零
+	
 		for( temp = 0; temp < 40; temp++ ){					// PAGE0/PAGE1通用数据初始化
 				 
 			Port_Information[temp].io_last_sta    = false;
@@ -482,11 +489,30 @@ void task1_task(void *p_arg)
 	while(1)
 	{
 		size = queue_find_cmd(cmd_buffer, CMD_MAX_SIZE);
+
 		if(  size > 0 )												//接收到指令
 		{
 			ProcessMessage((PCTRL_MSG)cmd_buffer, size);				//指令处理
 		}
-		OSTimeDlyHMSM(0,0,1,0,OS_OPT_TIME_HMSM_STRICT,&err); //延时1s
+		
+		switch(CMD_VAL){
+			case	0x1a:								//重置命令BUZZER提醒
+				SetBuzzer(0x3A);				//重置提醒
+				time_info_init();				//初始化所有参数
+				Clear_GUI(Port_Information,	40, ch_time.cnt_100ms);		 		//清空屏幕
+				CMD_VAL = 0;																							//清除本次命令，防止重复执行
+				break;
+			case	0x2a:									//自检命令
+				SetBuzzer(0x3A);					//自检命令BUZZER提醒
+				time_info_init();					//初始化所有参数
+				Clear_GUI(Port_Information,	40, ch_time.cnt_100ms);		 		//清空屏幕
+				CMD_VAL = 0;																							//清除本次命令，防止重复执行
+				break;
+			default:
+				break;
+		}
+		
+		OSTimeDlyHMSM(0,0,0,550,OS_OPT_TIME_HMSM_STRICT,&err); //延时 500ms
 		
 	}
 }
