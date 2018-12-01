@@ -90,6 +90,8 @@ int main(void)
 	delay_ms(100);				//延时100ms等待触屏初始化
 	SetBuzzer(0x3A);			//上电提醒
 	
+	while(!((GPIO_ReadInputData(GPIOD) >> 7) & 0x0001));		//等待时间基准信号		
+	
 	OSInit(&err);		    //初始化UCOSIII
 	OS_CRITICAL_ENTER();	//进入临界区			 
 	//创建开始任务
