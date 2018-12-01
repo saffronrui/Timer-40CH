@@ -186,59 +186,6 @@ void Fresh_GUI( IO_INFO info[], int8_t	size, int16_t	time_stp_100ms )
 							info[i].io_last_sta = false;
 		}
 	}
-	/*
-	BatchBegin(0);																													 //PAGE0批量更新
-	for( i = 0; i < 22; i++ ){
-		
-		if((info[i].io_sta == true)	&& (info[i].io_last_sta == false)){		     //端口导通
-			
-			info[i].on_time_stamp = time_stp_100ms / 10.0;											 //计算时间，单位0.1s
-			sprintf(info[i].on_time_string,"%.1f",info[i].on_time_stamp );			 //将时间戳转换为字符串
-			BatchSetText(info[i].on_text_ID, info[i].on_time_string);						 //在相应的ID显示时间字符串
-			info[i].io_last_sta = true;																					 //更新上次端口值
-		
-		}else	if( (info[i].io_sta == false)	&& (info[i].io_last_sta == true) ){
-		
-							info[i].off_time_stamp = time_stp_100ms / 10.0;
-							sprintf(info[i].off_time_string,"%.1f",info[i].off_time_stamp );
-							BatchSetText(info[i].off_text_ID, info[i].off_time_string);
-							info[i].io_last_sta = false;
-		}
-	}
-	BatchEnd();
-	
-	BatchBegin(1);																													 //PAGE1批量更新
-	for( i = 22; i < size; i++ ){
-		
-		if((info[i].io_sta == true)	&& (info[i].io_last_sta == false)){		     //端口导通
-			
-			info[i].on_time_stamp = time_stp_100ms / 10.0;											 //计算时间，单位0.1s
-			sprintf(info[i].on_time_string,"%.1f",info[i].on_time_stamp );			 //将时间戳转换为字符串
-			BatchSetText(info[i].on_text_ID, info[i].on_time_string);						 //在相应的ID显示时间字符串
-			info[i].io_last_sta = true;																					 //更新上次端口值
-		
-		}else	if( (info[i].io_sta == false)	&& (info[i].io_last_sta == true) ){
-		
-							info[i].off_time_stamp = time_stp_100ms / 10.0;
-							sprintf(info[i].off_time_string,"%.1f",info[i].off_time_stamp );
-							BatchSetText(info[i].off_text_ID, info[i].off_time_string);
-							info[i].io_last_sta = false;
-		}
-	}
-	BatchEnd();
-	
-	for( i = 0; i < size; i++ ){
-		
-		if((info[i].io_sta == true)	&& (info[i].io_last_sta == false)){		     //端口导通
-			
-				SetControlBackColor(info[i].page_ID, info[i].name_ID, 0x67E6);		 //显示绿色背景
-		
-		}else	if( (info[i].io_sta == false)	&& (info[i].io_last_sta == true) ){
-		
-				SetControlBackColor(info[i].page_ID, info[i].name_ID, 0xF980);		 //显示红色背景
-		}
-	}
-*/	
 }
 //*****************************************************//
 // Clear GUI
@@ -260,6 +207,33 @@ void  Clear_GUI(IO_INFO info[], int8_t	size, int16_t	time_stp_100ms)
 		}
 }
 
+//******************************************************//
+//Device_Check function()
+//Desprition: Use to test the Control Device and Touch screen work Normally
+//Input: Info struct , size
+//Output: None
+//******************************************************//
+void  Device_Check(IO_INFO info[], int8_t	size)
+{
+	int8_t	i = 0, ch_val;
+	
+	for( i = 0; i < 11; i++ ){
+			
+			SetProgressValue(0,  5,  60*( 1 - (i%2) ));		//更新PAGE0时间进度条，每次刷新更新1000ms
+			SetProgressValue(1, 15,  60*( 1 - (i%2) ));		//更新PAGE1时间进度条，每次刷新更新1000ms		
+			SetProgressValue(1, 26,  i);									//更新PAGE1自检进度条
+			
+			delay_ms(1000);
+		
+	}
+
+			SetProgressValue(0,  5,  0);		//进度条归零
+			SetProgressValue(1, 15,  0);		
+			SetProgressValue(1, 26,  10);		//自检进度条显示 100%	
+
+}
+
+
 /*! 
  *  \brief  按钮控件通知
  *  \details  当按钮状态改变(或调用GetControlValue)时，执行此函数
@@ -272,7 +246,7 @@ void NotifyButton(uint16 screen_id, uint16 control_id, uint8  state)
 	//TODO: 添加用户代码
 	
 //	uint8 i = 0;
-
+	
 	if((screen_id == 0)&&(state == 1))				// PAGE0 按钮命令 
 	{
 		 switch( control_id )

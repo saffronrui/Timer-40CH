@@ -503,9 +503,20 @@ void task1_task(void *p_arg)
 				CMD_VAL = 0;																							//清除本次命令，防止重复执行
 				break;
 			case	0x2a:									//自检命令
-				SetBuzzer(0x3A);					//自检命令BUZZER提醒
+				OSTaskSuspend((OS_TCB*)&Task2_TaskTCB, &err);
+				OSTaskSuspend((OS_TCB*)&Task100ms_TaskTCB, &err);
+				OSTaskSuspend((OS_TCB*)&Task1000ms_TaskTCB, &err);
+
+				SetBuzzer(0x3A);					//自检命令开始BUZZER提醒
 				time_info_init();					//初始化所有参数
 				Clear_GUI(Port_Information,	40, ch_time.cnt_100ms);		 		//清空屏幕
+				Device_Check(Port_Information,	40);
+
+				OSTaskResume((OS_TCB*)&Task2_TaskTCB, &err);
+				OSTaskResume((OS_TCB*)&Task100ms_TaskTCB, &err);
+				OSTaskResume((OS_TCB*)&Task1000ms_TaskTCB, &err);
+
+				SetBuzzer(0x3A);					//自检命令结束BUZZER提醒
 				CMD_VAL = 0;																							//清除本次命令，防止重复执行
 				break;
 			default:
