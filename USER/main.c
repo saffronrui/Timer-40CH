@@ -87,6 +87,7 @@ int main(void)
 	uart_init(115200);    //串口初始化
 	LED_Init();           //LED初始化	
 	time_info_init();			//结构体参数初始化
+	delay_ms(100);				//延时100ms等待触屏初始化
 	SetBuzzer(0x3A);			//上电提醒
 	
 	OSInit(&err);		    //初始化UCOSIII
@@ -502,8 +503,9 @@ void task1_task(void *p_arg)
 				Clear_GUI(Port_Information,	40, ch_time.cnt_100ms);		 		//清空屏幕
 				CMD_VAL = 0;																							//清除本次命令，防止重复执行
 				break;
+
 			case	0x2a:									//自检命令
-				OSTaskSuspend((OS_TCB*)&Task2_TaskTCB, &err);
+				OSTaskSuspend((OS_TCB*)&Task2_TaskTCB, &err);							//自检模式下挂起其他任务，停止计时
 				OSTaskSuspend((OS_TCB*)&Task100ms_TaskTCB, &err);
 				OSTaskSuspend((OS_TCB*)&Task1000ms_TaskTCB, &err);
 
@@ -512,13 +514,14 @@ void task1_task(void *p_arg)
 				Clear_GUI(Port_Information,	40, ch_time.cnt_100ms);		 		//清空屏幕
 				Device_Check(Port_Information,	40);
 
-				OSTaskResume((OS_TCB*)&Task2_TaskTCB, &err);
+				OSTaskResume((OS_TCB*)&Task2_TaskTCB, &err);							//自检模式结束后恢复其他任务，设备正常工作
 				OSTaskResume((OS_TCB*)&Task100ms_TaskTCB, &err);
 				OSTaskResume((OS_TCB*)&Task1000ms_TaskTCB, &err);
 
 				SetBuzzer(0x3A);					//自检命令结束BUZZER提醒
 				CMD_VAL = 0;																							//清除本次命令，防止重复执行
 				break;
+
 			default:
 				break;
 		}
