@@ -19,7 +19,19 @@ long task2_num=0;
 
 uint8 cmd_buffer[CMD_MAX_SIZE];							 //指令缓存
 
-//void time_info_init(void);
+void time_info_init(void);					//时间基准初始化函数
+void	wait_start_signal(void);			//等待开始信号函数，阻塞函数，只有输出为高电平才能执行此句，否则一直在此处循环
+
+void wait_start_signal(void)				//等待开始信号函数
+{
+		while(!((GPIO_ReadInputData(GPIOD) >> 9) & 0x0001));
+}
+
+
+//*****************************************************//
+//任务优先级排序：
+//start_task >> 100ms_task >> 100ms_task >> task1(touch cmd task) >> task2(gui_refresh task)
+//******************************************************//
 
 //任务优先级
 #define START_TASK_PRIO		3
@@ -32,15 +44,6 @@ CPU_STK START_TASK_STK[START_STK_SIZE];
 //任务函数
 void start_task(void *p_arg);
 
-//任务优先级
-#define TASK1_TASK_PRIO		4
-//任务堆栈大小	
-#define TASK1_STK_SIZE 		128
-//任务控制块
-OS_TCB Task1_TaskTCB;
-//任务堆栈	
-CPU_STK TASK1_TASK_STK[TASK1_STK_SIZE];
-void task1_task(void *p_arg);
 
 //任务优先级
 #define TASK100MS_TASK_PRIO		6
@@ -63,6 +66,16 @@ OS_TCB Task1000ms_TaskTCB;
 CPU_STK TASK1000MS_TASK_STK[TASK100MS_STK_SIZE];
 //任务函数
 void task1000ms_task(void *p_arg);
+
+//任务优先级
+#define TASK1_TASK_PRIO		8
+//任务堆栈大小	
+#define TASK1_STK_SIZE 		128
+//任务控制块
+OS_TCB Task1_TaskTCB;
+//任务堆栈	
+CPU_STK TASK1_TASK_STK[TASK1_STK_SIZE];
+void task1_task(void *p_arg);
 
 //任务优先级
 #define TASK2_TASK_PRIO		9
@@ -90,7 +103,7 @@ int main(void)
 	delay_ms(100);				//延时100ms等待触屏初始化
 	SetBuzzer(0x3A);			//上电提醒
 	
-	while(!((GPIO_ReadInputData(GPIOD) >> 7) & 0x0001));		//等待时间基准信号		
+	wait_start_signal();	//等待时间基准信号,通道8输入信号为开始信号	
 	
 	OSInit(&err);		    //初始化UCOSIII
 	OS_CRITICAL_ENTER();	//进入临界区			 
@@ -500,10 +513,21 @@ void task1_task(void *p_arg)
 		
 		switch(CMD_VAL){
 			case	0x1a:								//重置命令BUZZER提醒
+				
+				OSTaskSuspend((OS_TCB*)&Task2_TaskTCB, &err);							//重置模式下挂起其他任务，停止计时
+				OSTaskSuspend((OS_TCB*)&Task100ms_TaskTCB, &err);
+				OSTaskSuspend((OS_TCB*)&Task1000ms_TaskTCB, &err);
+				
 				SetBuzzer(0x3A);				//重置提醒
 				time_info_init();				//初始化所有参数
 				Clear_GUI(Port_Information,	40, ch_time.cnt_100ms);		 		//清空屏幕
 				CMD_VAL = 0;																							//清除本次命令，防止重复执行
+				
+				wait_start_signal();																			//阻塞等待开始信号
+				
+				OSTaskResume((OS_TCB*)&Task2_TaskTCB, &err);							//等待到开始信号之后恢复任务，开始下次计时
+				OSTaskResume((OS_TCB*)&Task100ms_TaskTCB, &err);
+				OSTaskResume((OS_TCB*)&Task1000ms_TaskTCB, &err);			
 				break;
 
 			case	0x2a:									//自检命令
@@ -515,13 +539,14 @@ void task1_task(void *p_arg)
 				time_info_init();					//初始化所有参数
 				Clear_GUI(Port_Information,	40, ch_time.cnt_100ms);		 		//清空屏幕
 				Device_Check(Port_Information,	40);
-
-				OSTaskResume((OS_TCB*)&Task2_TaskTCB, &err);							//自检模式结束后恢复其他任务，设备正常工作
+				SetBuzzer(0x3A);					//自检命令结束BUZZER提醒
+				CMD_VAL = 0;																							//清除本次命令，防止重复执行				
+				
+				wait_start_signal();																			//阻塞等待开始信号				
+				
+				OSTaskResume((OS_TCB*)&Task2_TaskTCB, &err);							//等待到开始信号之后恢复任务，开始下次计时
 				OSTaskResume((OS_TCB*)&Task100ms_TaskTCB, &err);
 				OSTaskResume((OS_TCB*)&Task1000ms_TaskTCB, &err);
-
-				SetBuzzer(0x3A);					//自检命令结束BUZZER提醒
-				CMD_VAL = 0;																							//清除本次命令，防止重复执行
 				break;
 
 			default:
