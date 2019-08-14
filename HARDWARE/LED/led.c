@@ -26,12 +26,20 @@ void LED_Init(void)
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_DOWN ;	
 	GPIO_Init(GPIOA,&GPIO_InitStructure);
 	
-  //GPIOD初始化设置
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_All;
+  //GPIOD初始化设置，输入通道
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8|GPIO_Pin_9|GPIO_Pin_10|GPIO_Pin_11|GPIO_Pin_12|GPIO_Pin_13 |GPIO_Pin_14|GPIO_Pin_15;
   GPIO_InitStructure.GPIO_Mode =  GPIO_Mode_IN;								//普通输入模式
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;					  //100MHz
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_DOWN ;				  
 	GPIO_Init(GPIOD, &GPIO_InitStructure);											//初始化GPIOD
+
+  //GPIOD初始化设置，输出继电器控制通道： PD0 - PD7
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_2|GPIO_Pin_3|GPIO_Pin_4|GPIO_Pin_5 |GPIO_Pin_6|GPIO_Pin_7;	
+  GPIO_InitStructure.GPIO_Mode =  GPIO_Mode_OUT;							//普通输入模式
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;					  //100MHz
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_DOWN ;				  
+	GPIO_Init(GPIOD, &GPIO_InitStructure);											//初始化GPIOD
+	GPIO_ResetBits(GPIOD,GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_2|GPIO_Pin_3|GPIO_Pin_4|GPIO_Pin_5|GPIO_Pin_6|GPIO_Pin_7); //GPIOD 输出低电平，继电器关闭
 
   //GPIOE初始化设置
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_All;

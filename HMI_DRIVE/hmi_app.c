@@ -260,7 +260,7 @@ void NotifyButton(uint16 screen_id, uint16 control_id, uint8  state)
 		 }
 	}
 
-	if((screen_id == 1)&&(state == 1))				// PAGE1 按钮命令 
+	if((screen_id == 1)&&(state == 1))				// PAGE1 按钮命令 摁下命令
 	{
 		 switch( control_id )
 		 {
@@ -282,9 +282,86 @@ void NotifyButton(uint16 screen_id, uint16 control_id, uint8  state)
 						LED3 = ~LED3;
 						CMD_VAL = 0X2A;				 //设备自检命令代号
 					break;
+			
+			 case 24:										 //继电器1控制闭合
+						LED3 = ~LED3;
+						CMD_VAL = 0xB1;
+					break;
+			 case 35:										 //继电器2控制闭合
+						LED3 = ~LED3;
+						CMD_VAL = 0xB2;
+					break;
+			 case 36:										 //继电器3控制闭合
+						LED3 = ~LED3;
+						CMD_VAL = 0xB3;
+					break;
+			 case 37:										 //继电器4控制闭合
+						LED3 = ~LED3;
+						CMD_VAL = 0xB4;
+					break;
+			 case 38:										 //继电器5控制闭合
+						LED3 = ~LED3;
+						CMD_VAL = 0xB5;
+					break;
+			 case 39:										 //继电器6控制闭合
+						LED3 = ~LED3;
+						CMD_VAL = 0xB6;
+					break;
+			 case 40:										 //继电器7控制闭合
+						LED3 = ~LED3;
+						CMD_VAL = 0xB7;
+					break;
+			 case 41:										 //继电器8控制闭合
+						LED3 = ~LED3;
+						CMD_VAL = 0xB8;
+					break;			 
+			
 			 default:
 					break;
 		 }
+	}
+	
+	if((screen_id == 1)&&(state == 0))				// PAGE1 按钮命令 弹起命令
+	{
+		 switch( control_id )
+		 {		
+			 case 24:										 //继电器1控制断开
+						LED3 = ~LED3;
+						CMD_VAL = 0xC1;
+					break;
+			 case 35:										 //继电器2控制断开
+						LED3 = ~LED3;
+						CMD_VAL = 0xC2;
+					break;
+			 case 36:										 //继电器3控制断开
+						LED3 = ~LED3;
+						CMD_VAL = 0xC3;
+					break;
+			 case 37:										 //继电器4控制断开
+						LED3 = ~LED3;
+						CMD_VAL = 0xC4;
+					break;
+			 case 38:										 //继电器5控制断开
+						LED3 = ~LED3;
+						CMD_VAL = 0xC5;
+					break;
+			 case 39:										 //继电器6控制断开
+						LED3 = ~LED3;
+						CMD_VAL = 0xC6;
+					break;
+			 case 40:										 //继电器7控制断开
+						LED3 = ~LED3;
+						CMD_VAL = 0xC7;
+					break;
+			 case 41:										 //继电器8控制断开
+						LED3 = ~LED3;
+						CMD_VAL = 0xC8;
+					break;			 
+			
+			 default:
+					break;
+		 }
+	
 	}
 }
 

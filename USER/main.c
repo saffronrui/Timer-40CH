@@ -9,9 +9,11 @@
 #include "hmi_user_uart.h"
 
 int16_t test_value;
- 
+
+#define	CH_NUM	30
+
 TIME_INFO		ch_time;
-IO_INFO	Port_Information[40];
+IO_INFO	Port_Information[CH_NUM];
 
 int8_t	CMD_VAL;
 
@@ -226,7 +228,7 @@ void time_info_init(void)
 		ch_time.cnt_1000ms = 0;											// 时间基准清零
 		ch_time.cnt_100ms = 0;											// 时间基准清零
 	
-		for( temp = 0; temp < 40; temp++ ){					// PAGE0/PAGE1通用数据初始化
+		for( temp = 0; temp < CH_NUM; temp++ ){					// PAGE0/PAGE1通用数据初始化
 				 
 			Port_Information[temp].io_last_sta    = false;
 			Port_Information[temp].io_sta			    = false;
@@ -384,55 +386,55 @@ void time_info_init(void)
 		Port_Information[29].on_text_ID 	= 74;
 		Port_Information[29].off_text_ID 	= 75;
 
-		Port_Information[30].page_ID 			= 1;				//PORT30 ID-Number Init, PAGE1
-		Port_Information[30].name_ID 			= 13;
-		Port_Information[30].on_text_ID 	= 76;
-		Port_Information[30].off_text_ID 	= 77;
-		
-		Port_Information[31].page_ID 			= 1;				//PORT31 ID-Number Init, PAGE1
-		Port_Information[31].name_ID 			= 14;
-		Port_Information[31].on_text_ID 	= 78;
-		Port_Information[31].off_text_ID 	= 79;
-		
-		Port_Information[32].page_ID 			= 1;				//PORT32 ID-Number Init, PAGE1
-		Port_Information[32].name_ID 			= 16;
-		Port_Information[32].on_text_ID 	= 80;
-		Port_Information[32].off_text_ID 	= 81;
-		
-		Port_Information[33].page_ID 			= 1;				//PORT33 ID-Number Init, PAGE1
-		Port_Information[33].name_ID 			= 17;
-		Port_Information[33].on_text_ID 	= 82;
-		Port_Information[33].off_text_ID 	= 83;
-		
-		Port_Information[34].page_ID 			= 1;				//PORT34 ID-Number Init, PAGE1
-		Port_Information[34].name_ID 			= 18;
-		Port_Information[34].on_text_ID 	= 84;
-		Port_Information[34].off_text_ID 	= 85;
-		
-		Port_Information[35].page_ID 			= 1;				//PORT35 ID-Number Init, PAGE1
-		Port_Information[35].name_ID 			= 19;
-		Port_Information[35].on_text_ID 	= 86;
-		Port_Information[35].off_text_ID 	= 87;
-		
-		Port_Information[36].page_ID 			= 1;				//PORT36 ID-Number Init, PAGE1
-		Port_Information[36].name_ID 			= 20;
-		Port_Information[36].on_text_ID 	= 88;
-		Port_Information[36].off_text_ID 	= 89;
-		
-		Port_Information[37].page_ID 			= 1;				//PORT37 ID-Number Init, PAGE1
-		Port_Information[37].name_ID 			= 21;
-		Port_Information[37].on_text_ID 	= 90;
-		Port_Information[37].off_text_ID 	= 91;
+//		Port_Information[30].page_ID 			= 1;				//PORT30 ID-Number Init, PAGE1
+//		Port_Information[30].name_ID 			= 13;
+//		Port_Information[30].on_text_ID 	= 76;
+//		Port_Information[30].off_text_ID 	= 77;
+//		
+//		Port_Information[31].page_ID 			= 1;				//PORT31 ID-Number Init, PAGE1
+//		Port_Information[31].name_ID 			= 14;
+//		Port_Information[31].on_text_ID 	= 78;
+//		Port_Information[31].off_text_ID 	= 79;
+//		
+//		Port_Information[32].page_ID 			= 1;				//PORT32 ID-Number Init, PAGE1
+//		Port_Information[32].name_ID 			= 16;
+//		Port_Information[32].on_text_ID 	= 80;
+//		Port_Information[32].off_text_ID 	= 81;
+//		
+//		Port_Information[33].page_ID 			= 1;				//PORT33 ID-Number Init, PAGE1
+//		Port_Information[33].name_ID 			= 17;
+//		Port_Information[33].on_text_ID 	= 82;
+//		Port_Information[33].off_text_ID 	= 83;
+//		
+//		Port_Information[34].page_ID 			= 1;				//PORT34 ID-Number Init, PAGE1
+//		Port_Information[34].name_ID 			= 18;
+//		Port_Information[34].on_text_ID 	= 84;
+//		Port_Information[34].off_text_ID 	= 85;
+//		
+//		Port_Information[35].page_ID 			= 1;				//PORT35 ID-Number Init, PAGE1
+//		Port_Information[35].name_ID 			= 19;
+//		Port_Information[35].on_text_ID 	= 86;
+//		Port_Information[35].off_text_ID 	= 87;
+//		
+//		Port_Information[36].page_ID 			= 1;				//PORT36 ID-Number Init, PAGE1
+//		Port_Information[36].name_ID 			= 20;
+//		Port_Information[36].on_text_ID 	= 88;
+//		Port_Information[36].off_text_ID 	= 89;
+//		
+//		Port_Information[37].page_ID 			= 1;				//PORT37 ID-Number Init, PAGE1
+//		Port_Information[37].name_ID 			= 21;
+//		Port_Information[37].on_text_ID 	= 90;
+//		Port_Information[37].off_text_ID 	= 91;
 
-		Port_Information[38].page_ID 			= 1;				//PORT38 ID-Number Init, PAGE1
-		Port_Information[38].name_ID 			= 22;
-		Port_Information[38].on_text_ID 	= 92;
-		Port_Information[38].off_text_ID 	= 93;
-		
-		Port_Information[39].page_ID 			= 1;				//PORT39 ID-Number Init, PAGE1
-		Port_Information[39].name_ID 			= 23;
-		Port_Information[39].on_text_ID 	= 94;
-		Port_Information[39].off_text_ID 	= 95;
+//		Port_Information[38].page_ID 			= 1;				//PORT38 ID-Number Init, PAGE1
+//		Port_Information[38].name_ID 			= 22;
+//		Port_Information[38].on_text_ID 	= 92;
+//		Port_Information[38].off_text_ID 	= 93;
+//		
+//		Port_Information[39].page_ID 			= 1;				//PORT39 ID-Number Init, PAGE1
+//		Port_Information[39].name_ID 			= 23;
+//		Port_Information[39].on_text_ID 	= 94;
+//		Port_Information[39].off_text_ID 	= 95;
 }
 
 /*
@@ -447,47 +449,48 @@ void gpio_sta_read(void)
 	gpio_data_A = GPIO_ReadInputData(GPIOA);				//读取 GPIOA 8位
 	gpio_data_D = GPIO_ReadInputData(GPIOD);				//读取 GPIOD 16位
 	gpio_data_E = GPIO_ReadInputData(GPIOE);				//读取 GPIOE 16位
-	
-	Port_Information[0].io_sta  =  (gpio_data_D >> 7) & 0x0001;				//通道0输入端口
-	Port_Information[1].io_sta  =  (gpio_data_D >> 5) & 0x0001;				//通道1输入端口
-	Port_Information[2].io_sta  =  (gpio_data_D >> 3) & 0x0001;				//通道2输入端口
-	Port_Information[3].io_sta  =  (gpio_data_D >> 1) & 0x0001;				//通道3输入端口
-	Port_Information[4].io_sta  =  (gpio_data_D >> 15)& 0x0001;				//通道4输入端口
-	Port_Information[5].io_sta  =  (gpio_data_D >> 13)& 0x0001;				//通道5输入端口
-	Port_Information[6].io_sta  =  (gpio_data_D >> 11)& 0x0001;				//通道6输入端口
-	Port_Information[7].io_sta  =  (gpio_data_D >> 9) & 0x0001;				//通道7输入端口
-	Port_Information[8].io_sta  =  (gpio_data_E >> 7) & 0x0001;				//通道8输入端口
-	Port_Information[9].io_sta  =  (gpio_data_E >> 4) & 0x0001;				//通道9输入端口
-	Port_Information[10].io_sta = (gpio_data_E >> 3)  & 0x0001;				//通道10输入端口
-	Port_Information[11].io_sta = (gpio_data_A >> 6)  & 0x0001;				//通道11输入端口
-	Port_Information[12].io_sta = (gpio_data_A >> 5)  & 0x0001;				//通道12输入端口	
-	Port_Information[13].io_sta = (gpio_data_A)  			& 0x0001;				//通道13输入端口	
-	Port_Information[14].io_sta = (gpio_data_E >> 14) & 0x0001;			  //通道14输入端口
-	Port_Information[15].io_sta = (gpio_data_E >> 12) & 0x0001;			  //通道15输入端口
-	Port_Information[16].io_sta = (gpio_data_E >> 10) & 0x0001;				//通道16输入端口	
-	Port_Information[17].io_sta = (gpio_data_D >> 6)  & 0x0001;				//通道17输入端口
-	Port_Information[18].io_sta = (gpio_data_D >> 4)  & 0x0001;				//通道18输入端口	
-	Port_Information[19].io_sta = (gpio_data_D >> 2)  & 0x0001;				//通道19输入端口
-	Port_Information[20].io_sta = (gpio_data_D)  			& 0x0001;				//通道20输入端口
-	Port_Information[21].io_sta = (gpio_data_D >> 14) & 0x0001;				//通道21输入端口
-	Port_Information[22].io_sta = (gpio_data_D >> 12) & 0x0001;				//通道22输入端口
-	Port_Information[23].io_sta = (gpio_data_D >> 10) & 0x0001;				//通道23输入端口	
-	Port_Information[24].io_sta = (gpio_data_D >> 8)  & 0x0001;				//通道24输入端口	
-	Port_Information[25].io_sta = (gpio_data_E >> 6)  & 0x0001;				//通道25输入端口
-	Port_Information[26].io_sta = (gpio_data_E >> 5)  & 0x0001;				//通道26输入端口
-	Port_Information[27].io_sta = (gpio_data_E)       & 0x0001;				//通道27输入端口
-	Port_Information[28].io_sta = (gpio_data_A >> 7)  & 0x0001;				//通道28输入端口
-	Port_Information[29].io_sta = (gpio_data_A >> 2)  & 0x0001;				//通道29输入端口
-	Port_Information[30].io_sta = (gpio_data_A >> 1)  & 0x0001;				//通道30输入端口
-	Port_Information[31].io_sta = (gpio_data_E >> 13) & 0x0001;				//通道31输入端口	
-	Port_Information[32].io_sta = (gpio_data_E >> 9)  & 0x0001;				//通道32输入端口
-	Port_Information[33].io_sta = (gpio_data_E >> 2)  & 0x0001;				//通道33输入端口
-	Port_Information[34].io_sta = (gpio_data_E >> 1)  & 0x0001;				//通道34输入端口
-	Port_Information[35].io_sta = (gpio_data_A >> 4)  & 0x0001;				//通道35输入端口	
-	Port_Information[36].io_sta = (gpio_data_A >> 3)  & 0x0001;				//通道36输入端口	
-	Port_Information[37].io_sta = (gpio_data_E >> 15) & 0x0001;				//通道37输入端口
-	Port_Information[38].io_sta = (gpio_data_E >> 11) & 0x0001;				//通道38输入端口	
-	Port_Information[39].io_sta = (gpio_data_E >> 8)  & 0x0001;				//通道39输入端口	
+
+//输入通道需要重新排列	
+//	Port_Information[0].io_sta  =  (gpio_data_D >> 7) & 0x0001;				//通道0输入端口
+//	Port_Information[1].io_sta  =  (gpio_data_D >> 5) & 0x0001;				//通道1输入端口
+//	Port_Information[2].io_sta  =  (gpio_data_D >> 3) & 0x0001;				//通道2输入端口
+//	Port_Information[3].io_sta  =  (gpio_data_D >> 1) & 0x0001;				//通道3输入端口
+	Port_Information[0].io_sta  =  (gpio_data_D >> 15)& 0x0001;				//通道4输入端口
+	Port_Information[1].io_sta  =  (gpio_data_D >> 13)& 0x0001;				//通道5输入端口
+	Port_Information[2].io_sta  =  (gpio_data_D >> 11)& 0x0001;				//通道6输入端口
+	Port_Information[3].io_sta  =  (gpio_data_D >> 9) & 0x0001;				//通道7输入端口
+	Port_Information[4].io_sta  =  (gpio_data_E >> 7) & 0x0001;				//通道8输入端口
+	Port_Information[5].io_sta  =  (gpio_data_E >> 4) & 0x0001;				//通道9输入端口
+	Port_Information[6].io_sta = (gpio_data_E >> 3)  & 0x0001;				//通道10输入端口
+	Port_Information[7].io_sta = (gpio_data_A >> 6)  & 0x0001;				//通道11输入端口
+	Port_Information[8].io_sta = (gpio_data_A >> 5)  & 0x0001;				//通道12输入端口	
+	Port_Information[9].io_sta = (gpio_data_A)  			& 0x0001;				//通道13输入端口	
+	Port_Information[10].io_sta = (gpio_data_E >> 14) & 0x0001;			  //通道14输入端口
+	Port_Information[11].io_sta = (gpio_data_E >> 12) & 0x0001;			  //通道15输入端口
+	Port_Information[12].io_sta = (gpio_data_E >> 10) & 0x0001;				//通道16输入端口	
+//	Port_Information[17].io_sta = (gpio_data_D >> 6)  & 0x0001;				//通道17输入端口
+//	Port_Information[18].io_sta = (gpio_data_D >> 4)  & 0x0001;				//通道18输入端口	
+//	Port_Information[19].io_sta = (gpio_data_D >> 2)  & 0x0001;				//通道19输入端口
+//	Port_Information[20].io_sta = (gpio_data_D)  			& 0x0001;				//通道20输入端口
+	Port_Information[13].io_sta = (gpio_data_D >> 14) & 0x0001;				//通道21输入端口
+	Port_Information[14].io_sta = (gpio_data_D >> 12) & 0x0001;				//通道22输入端口
+	Port_Information[15].io_sta = (gpio_data_D >> 10) & 0x0001;				//通道23输入端口	
+	Port_Information[16].io_sta = (gpio_data_D >> 8)  & 0x0001;				//通道24输入端口	
+	Port_Information[17].io_sta = (gpio_data_E >> 6)  & 0x0001;				//通道25输入端口
+	Port_Information[18].io_sta = (gpio_data_E >> 5)  & 0x0001;				//通道26输入端口
+	Port_Information[19].io_sta = (gpio_data_E)       & 0x0001;				//通道27输入端口
+	Port_Information[20].io_sta = (gpio_data_A >> 7)  & 0x0001;				//通道28输入端口
+	Port_Information[21].io_sta = (gpio_data_A >> 2)  & 0x0001;				//通道29输入端口
+	Port_Information[22].io_sta = (gpio_data_A >> 1)  & 0x0001;				//通道30输入端口
+	Port_Information[23].io_sta = (gpio_data_E >> 13) & 0x0001;				//通道31输入端口	
+	Port_Information[24].io_sta = (gpio_data_E >> 9)  & 0x0001;				//通道32输入端口
+	Port_Information[25].io_sta = (gpio_data_E >> 2)  & 0x0001;				//通道33输入端口
+	Port_Information[26].io_sta = (gpio_data_E >> 1)  & 0x0001;				//通道34输入端口
+	Port_Information[27].io_sta = (gpio_data_A >> 4)  & 0x0001;				//通道35输入端口	
+	Port_Information[28].io_sta = (gpio_data_A >> 3)  & 0x0001;				//通道36输入端口	
+	Port_Information[29].io_sta = (gpio_data_E >> 15) & 0x0001;				//通道37输入端口
+//	Port_Information[30].io_sta = (gpio_data_E >> 11) & 0x0001;				//通道38输入端口	
+//	Port_Information[31].io_sta = (gpio_data_E >> 8)  & 0x0001;				//通道39输入端口	
 
 }
 
@@ -520,7 +523,7 @@ void task1_task(void *p_arg)
 				
 				SetBuzzer(0x3A);				//重置提醒
 				time_info_init();				//初始化所有参数
-				Clear_GUI(Port_Information,	40, ch_time.cnt_100ms);		 		//清空屏幕
+				Clear_GUI(Port_Information,	CH_NUM, ch_time.cnt_100ms);		 		//清空屏幕
 				CMD_VAL = 0;																							//清除本次命令，防止重复执行
 				
 				wait_start_signal();																			//阻塞等待开始信号
@@ -537,8 +540,8 @@ void task1_task(void *p_arg)
 
 				SetBuzzer(0x3A);					//自检命令开始BUZZER提醒
 				time_info_init();					//初始化所有参数
-				Clear_GUI(Port_Information,	40, ch_time.cnt_100ms);		 		//清空屏幕
-				Device_Check(Port_Information,	40);
+				Clear_GUI(Port_Information,	CH_NUM, ch_time.cnt_100ms);		 		//清空屏幕
+				Device_Check(Port_Information,	CH_NUM);
 				SetBuzzer(0x3A);					//自检命令结束BUZZER提醒
 				CMD_VAL = 0;																							//清除本次命令，防止重复执行				
 				
@@ -549,6 +552,88 @@ void task1_task(void *p_arg)
 				OSTaskResume((OS_TCB*)&Task1000ms_TaskTCB, &err);
 				break;
 
+			case	0xB1:								//继电器1闭合指令
+				GPIO_SetBits(GPIOD,GPIO_Pin_0); 
+				SetBuzzer(0x3A);				//重置提醒
+				CMD_VAL = 0;																							//清除本次命令，防止重复执行
+				break;
+			case	0xC1:								//继电器1断开指令
+				GPIO_ResetBits(GPIOD,GPIO_Pin_0); 
+				SetBuzzer(0x3A);				//重置提醒
+				CMD_VAL = 0;																							//清除本次命令，防止重复执行
+				break;			
+			case	0xB2:								//继电器2闭合指令
+				GPIO_SetBits(GPIOD,GPIO_Pin_1); 
+				SetBuzzer(0x3A);				//重置提醒
+				CMD_VAL = 0;																							//清除本次命令，防止重复执行
+				break;
+			case	0xC2:								//继电器2断开指令
+				GPIO_ResetBits(GPIOD,GPIO_Pin_1); 
+				SetBuzzer(0x3A);				//重置提醒
+				CMD_VAL = 0;																							//清除本次命令，防止重复执行
+				break;					
+			case	0xB3:								//继电器3闭合指令
+				GPIO_SetBits(GPIOD,GPIO_Pin_2); 
+				SetBuzzer(0x3A);				//重置提醒
+				CMD_VAL = 0;																							//清除本次命令，防止重复执行
+				break;
+			case	0xC3:								//继电器3断开指令
+				GPIO_ResetBits(GPIOD,GPIO_Pin_2); 
+				SetBuzzer(0x3A);				//重置提醒
+				CMD_VAL = 0;																							//清除本次命令，防止重复执行
+				break;			
+			case	0xB4:								//继电器4闭合指令
+				GPIO_SetBits(GPIOD,GPIO_Pin_3); 
+				SetBuzzer(0x3A);				//重置提醒
+				CMD_VAL = 0;																							//清除本次命令，防止重复执行
+				break;
+			case	0xC4:								//继电器4断开指令
+				GPIO_ResetBits(GPIOD,GPIO_Pin_3); 
+				SetBuzzer(0x3A);				//重置提醒
+				CMD_VAL = 0;																							//清除本次命令，防止重复执行
+				break;					
+			case	0xB5:								//继电器5闭合指令
+				GPIO_SetBits(GPIOD,GPIO_Pin_4); 
+				SetBuzzer(0x3A);				//重置提醒
+				CMD_VAL = 0;																							//清除本次命令，防止重复执行
+				break;
+			case	0xC5:								//继电器5断开指令
+				GPIO_ResetBits(GPIOD,GPIO_Pin_4); 
+				SetBuzzer(0x3A);				//重置提醒
+				CMD_VAL = 0;																							//清除本次命令，防止重复执行
+				break;			
+			case	0xB6:								//继电器6闭合指令
+				GPIO_SetBits(GPIOD,GPIO_Pin_5); 
+				SetBuzzer(0x3A);				//重置提醒
+				CMD_VAL = 0;																							//清除本次命令，防止重复执行
+				break;
+			case	0xC6:								//继电器6断开指令
+				GPIO_ResetBits(GPIOD,GPIO_Pin_5); 
+				SetBuzzer(0x3A);				//重置提醒
+				CMD_VAL = 0;																							//清除本次命令，防止重复执行
+				break;					
+			case	0xB7:								//继电器7闭合指令
+				GPIO_SetBits(GPIOD,GPIO_Pin_6); 
+				SetBuzzer(0x3A);				//重置提醒
+				CMD_VAL = 0;																							//清除本次命令，防止重复执行
+				break;
+			case	0xC7:								//继电器7断开指令
+				GPIO_ResetBits(GPIOD,GPIO_Pin_6); 
+				SetBuzzer(0x3A);				//重置提醒
+				CMD_VAL = 0;																							//清除本次命令，防止重复执行
+				break;			
+			case	0xB8:								//继电器8闭合指令
+				GPIO_SetBits(GPIOD,GPIO_Pin_7); 
+				SetBuzzer(0x3A);				//重置提醒
+				CMD_VAL = 0;																							//清除本次命令，防止重复执行
+				break;
+			case	0xC8:								//继电器8断开指令
+				GPIO_ResetBits(GPIOD,GPIO_Pin_7); 
+				SetBuzzer(0x3A);				//重置提醒
+				CMD_VAL = 0;																							//清除本次命令，防止重复执行
+				break;
+
+			
 			default:
 				break;
 		}
@@ -572,7 +657,7 @@ void task2_task(void *p_arg)
 //		LED3 = ~LED3;
 		
 		gpio_sta_read();
-		Fresh_GUI(Port_Information,	40, ch_time.cnt_100ms);		 		//刷新屏幕
+		Fresh_GUI(Port_Information,	CH_NUM, ch_time.cnt_100ms);		 		//刷新屏幕
 		
 		OSTimeDlyHMSM(0,0,0,200,OS_OPT_TIME_HMSM_STRICT,&err); 		//延时200ms
 	}
