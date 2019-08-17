@@ -366,51 +366,51 @@ void time_info_init(void)
 		Port_Information[25].on_text_ID 	= 66;
 		Port_Information[25].off_text_ID 	= 67;
 		
-		Port_Information[26].page_ID 			= 1;				//PORT26 ID-Number Init, PAGE1
-		Port_Information[26].name_ID 			= 12;
-		Port_Information[26].on_text_ID 	= 68;
-		Port_Information[26].off_text_ID 	= 69;
-		
-		Port_Information[27].page_ID 			= 1;				//PORT27 ID-Number Init, PAGE1
-		Port_Information[27].name_ID 			= 3;
-		Port_Information[27].on_text_ID 	= 70;
-		Port_Information[27].off_text_ID 	= 71;
-		
-		Port_Information[28].page_ID 			= 1;				//PORT28 ID-Number Init, PAGE1
-		Port_Information[28].name_ID 			= 4;
-		Port_Information[28].on_text_ID 	= 72;
-		Port_Information[28].off_text_ID 	= 73;
-		
-		Port_Information[29].page_ID 			= 1;				//PORT29 ID-Number Init, PAGE1
-		Port_Information[29].name_ID 			= 5;
-		Port_Information[29].on_text_ID 	= 74;
-		Port_Information[29].off_text_ID 	= 75;
+//		Port_Information[26].page_ID 			= 1;				//PORT26 ID-Number Init, PAGE1
+//		Port_Information[26].name_ID 			= 12;
+//		Port_Information[26].on_text_ID 	= 68;
+//		Port_Information[26].off_text_ID 	= 69;
+//		
+//		Port_Information[27].page_ID 			= 1;				//PORT27 ID-Number Init, PAGE1
+//		Port_Information[27].name_ID 			= 3;
+//		Port_Information[27].on_text_ID 	= 70;
+//		Port_Information[27].off_text_ID 	= 71;
+//		
+//		Port_Information[28].page_ID 			= 1;				//PORT28 ID-Number Init, PAGE1
+//		Port_Information[28].name_ID 			= 4;
+//		Port_Information[28].on_text_ID 	= 72;
+//		Port_Information[28].off_text_ID 	= 73;
+//		
+//		Port_Information[29].page_ID 			= 1;				//PORT29 ID-Number Init, PAGE1
+//		Port_Information[29].name_ID 			= 5;
+//		Port_Information[29].on_text_ID 	= 74;
+//		Port_Information[29].off_text_ID 	= 75;
 
 //		Port_Information[30].page_ID 			= 1;				//PORT30 ID-Number Init, PAGE1
 //		Port_Information[30].name_ID 			= 13;
 //		Port_Information[30].on_text_ID 	= 76;
 //		Port_Information[30].off_text_ID 	= 77;
-//		
-//		Port_Information[31].page_ID 			= 1;				//PORT31 ID-Number Init, PAGE1
-//		Port_Information[31].name_ID 			= 14;
-//		Port_Information[31].on_text_ID 	= 78;
-//		Port_Information[31].off_text_ID 	= 79;
-//		
-//		Port_Information[32].page_ID 			= 1;				//PORT32 ID-Number Init, PAGE1
-//		Port_Information[32].name_ID 			= 16;
-//		Port_Information[32].on_text_ID 	= 80;
-//		Port_Information[32].off_text_ID 	= 81;
-//		
-//		Port_Information[33].page_ID 			= 1;				//PORT33 ID-Number Init, PAGE1
-//		Port_Information[33].name_ID 			= 17;
-//		Port_Information[33].on_text_ID 	= 82;
-//		Port_Information[33].off_text_ID 	= 83;
-//		
-//		Port_Information[34].page_ID 			= 1;				//PORT34 ID-Number Init, PAGE1
-//		Port_Information[34].name_ID 			= 18;
-//		Port_Information[34].on_text_ID 	= 84;
-//		Port_Information[34].off_text_ID 	= 85;
-//		
+		
+		Port_Information[26].page_ID 			= 1;				//PORT26 ID-Number Init, PAGE1
+		Port_Information[26].name_ID 			= 14;
+		Port_Information[26].on_text_ID 	= 78;
+		Port_Information[26].off_text_ID 	= 79;
+		
+		Port_Information[27].page_ID 			= 1;				//PORT27 ID-Number Init, PAGE1
+		Port_Information[27].name_ID 			= 16;
+		Port_Information[27].on_text_ID 	= 80;
+		Port_Information[27].off_text_ID 	= 81;
+		
+		Port_Information[28].page_ID 			= 1;				//PORT28 ID-Number Init, PAGE1
+		Port_Information[28].name_ID 			= 17;
+		Port_Information[28].on_text_ID 	= 82;
+		Port_Information[28].off_text_ID 	= 83;
+		
+		Port_Information[29].page_ID 			= 1;				//PORT29 ID-Number Init, PAGE1
+		Port_Information[29].name_ID 			= 18;
+		Port_Information[29].on_text_ID 	= 84;
+		Port_Information[29].off_text_ID 	= 85;
+		
 //		Port_Information[35].page_ID 			= 1;				//PORT35 ID-Number Init, PAGE1
 //		Port_Information[35].name_ID 			= 19;
 //		Port_Information[35].on_text_ID 	= 86;
