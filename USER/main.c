@@ -15,7 +15,7 @@ int16_t test_value;
 TIME_INFO		ch_time;
 IO_INFO	Port_Information[CH_NUM];
 
-int8_t	CMD_VAL;
+uint8_t	CMD_VAL;
 
 long task2_num=0;
 
@@ -105,7 +105,7 @@ int main(void)
 	delay_ms(100);				//延时100ms等待触屏初始化
 	SetBuzzer(0x3A);			//上电提醒
 	
-	wait_start_signal();	//等待时间基准信号,通道8输入信号为开始信号	
+//	wait_start_signal();	//等待时间基准信号,通道8输入信号为开始信号	
 	
 	OSInit(&err);		    //初始化UCOSIII
 	OS_CRITICAL_ENTER();	//进入临界区			 
@@ -514,9 +514,9 @@ void task1_task(void *p_arg)
 			ProcessMessage((PCTRL_MSG)cmd_buffer, size);				//指令处理
 		}
 		
-		switch(CMD_VAL){
+		switch(CMD_VAL){	
+					
 			case	0x1a:								//重置命令BUZZER提醒
-				
 				OSTaskSuspend((OS_TCB*)&Task2_TaskTCB, &err);							//重置模式下挂起其他任务，停止计时
 				OSTaskSuspend((OS_TCB*)&Task100ms_TaskTCB, &err);
 				OSTaskSuspend((OS_TCB*)&Task1000ms_TaskTCB, &err);
@@ -551,85 +551,69 @@ void task1_task(void *p_arg)
 				OSTaskResume((OS_TCB*)&Task100ms_TaskTCB, &err);
 				OSTaskResume((OS_TCB*)&Task1000ms_TaskTCB, &err);
 				break;
-
+			
 			case	0xB1:								//继电器1闭合指令
 				GPIO_SetBits(GPIOD,GPIO_Pin_0); 
-				SetBuzzer(0x3A);				//重置提醒
 				CMD_VAL = 0;																							//清除本次命令，防止重复执行
 				break;
 			case	0xC1:								//继电器1断开指令
 				GPIO_ResetBits(GPIOD,GPIO_Pin_0); 
-				SetBuzzer(0x3A);				//重置提醒
 				CMD_VAL = 0;																							//清除本次命令，防止重复执行
 				break;			
 			case	0xB2:								//继电器2闭合指令
 				GPIO_SetBits(GPIOD,GPIO_Pin_1); 
-				SetBuzzer(0x3A);				//重置提醒
 				CMD_VAL = 0;																							//清除本次命令，防止重复执行
 				break;
 			case	0xC2:								//继电器2断开指令
 				GPIO_ResetBits(GPIOD,GPIO_Pin_1); 
-				SetBuzzer(0x3A);				//重置提醒
 				CMD_VAL = 0;																							//清除本次命令，防止重复执行
 				break;					
 			case	0xB3:								//继电器3闭合指令
 				GPIO_SetBits(GPIOD,GPIO_Pin_2); 
-				SetBuzzer(0x3A);				//重置提醒
 				CMD_VAL = 0;																							//清除本次命令，防止重复执行
 				break;
 			case	0xC3:								//继电器3断开指令
 				GPIO_ResetBits(GPIOD,GPIO_Pin_2); 
-				SetBuzzer(0x3A);				//重置提醒
 				CMD_VAL = 0;																							//清除本次命令，防止重复执行
 				break;			
 			case	0xB4:								//继电器4闭合指令
 				GPIO_SetBits(GPIOD,GPIO_Pin_3); 
-				SetBuzzer(0x3A);				//重置提醒
 				CMD_VAL = 0;																							//清除本次命令，防止重复执行
 				break;
 			case	0xC4:								//继电器4断开指令
 				GPIO_ResetBits(GPIOD,GPIO_Pin_3); 
-				SetBuzzer(0x3A);				//重置提醒
 				CMD_VAL = 0;																							//清除本次命令，防止重复执行
 				break;					
 			case	0xB5:								//继电器5闭合指令
 				GPIO_SetBits(GPIOD,GPIO_Pin_4); 
-				SetBuzzer(0x3A);				//重置提醒
 				CMD_VAL = 0;																							//清除本次命令，防止重复执行
 				break;
 			case	0xC5:								//继电器5断开指令
 				GPIO_ResetBits(GPIOD,GPIO_Pin_4); 
-				SetBuzzer(0x3A);				//重置提醒
 				CMD_VAL = 0;																							//清除本次命令，防止重复执行
 				break;			
 			case	0xB6:								//继电器6闭合指令
 				GPIO_SetBits(GPIOD,GPIO_Pin_5); 
-				SetBuzzer(0x3A);				//重置提醒
 				CMD_VAL = 0;																							//清除本次命令，防止重复执行
 				break;
 			case	0xC6:								//继电器6断开指令
 				GPIO_ResetBits(GPIOD,GPIO_Pin_5); 
-				SetBuzzer(0x3A);				//重置提醒
 				CMD_VAL = 0;																							//清除本次命令，防止重复执行
 				break;					
 			case	0xB7:								//继电器7闭合指令
 				GPIO_SetBits(GPIOD,GPIO_Pin_6); 
-				SetBuzzer(0x3A);				//重置提醒
 				CMD_VAL = 0;																							//清除本次命令，防止重复执行
 				break;
 			case	0xC7:								//继电器7断开指令
 				GPIO_ResetBits(GPIOD,GPIO_Pin_6); 
-				SetBuzzer(0x3A);				//重置提醒
 				CMD_VAL = 0;																							//清除本次命令，防止重复执行
 				break;			
 			case	0xB8:								//继电器8闭合指令
 				GPIO_SetBits(GPIOD,GPIO_Pin_7); 
-				SetBuzzer(0x3A);				//重置提醒
 				CMD_VAL = 0;																							//清除本次命令，防止重复执行
 				break;
 			case	0xC8:								//继电器8断开指令
 				GPIO_ResetBits(GPIOD,GPIO_Pin_7); 
-				SetBuzzer(0x3A);				//重置提醒
 				CMD_VAL = 0;																							//清除本次命令，防止重复执行
 				break;
 
@@ -646,7 +630,6 @@ void task1_task(void *p_arg)
 //task2任务函数，刷新屏幕任务
 void task2_task(void *p_arg)
 {
-
 	OS_ERR err;
 	CPU_SR_ALLOC();
 	p_arg = p_arg;
@@ -657,6 +640,7 @@ void task2_task(void *p_arg)
 //		LED3 = ~LED3;
 		
 		gpio_sta_read();
+				
 		Fresh_GUI(Port_Information,	CH_NUM, ch_time.cnt_100ms);		 		//刷新屏幕
 		
 		OSTimeDlyHMSM(0,0,0,200,OS_OPT_TIME_HMSM_STRICT,&err); 		//延时200ms
