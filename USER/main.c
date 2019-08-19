@@ -26,7 +26,7 @@ void	wait_start_signal(void);			//等待开始信号函数，阻塞函数，只有输出为高电平才
 
 void wait_start_signal(void)				//等待开始信号函数
 {
-		while(!((GPIO_ReadInputData(GPIOD) >> 9) & 0x0001));
+		while(!((GPIO_ReadInputData(GPIOE) >> 7) & 0x0001));
 }
 
 
@@ -105,7 +105,7 @@ int main(void)
 	delay_ms(100);				//延时100ms等待触屏初始化
 	SetBuzzer(0x3A);			//上电提醒
 	
-//	wait_start_signal();	//等待时间基准信号,通道8输入信号为开始信号	
+	wait_start_signal();	//等待时间基准信号,通道5输入信号为开始信号	
 	
 	OSInit(&err);		    //初始化UCOSIII
 	OS_CRITICAL_ENTER();	//进入临界区			 
@@ -552,13 +552,17 @@ void task1_task(void *p_arg)
 				OSTaskResume((OS_TCB*)&Task1000ms_TaskTCB, &err);
 				break;
 			
-			case	0xB1:								//继电器1闭合指令
+			case	0xB1:								//继电器1闭合指令，15%按钮
 				GPIO_SetBits(GPIOD,GPIO_Pin_0); 
 				CMD_VAL = 0;																							//清除本次命令，防止重复执行
 				break;
 			case	0xC1:								//继电器1断开指令
-				GPIO_ResetBits(GPIOD,GPIO_Pin_0); 
-				CMD_VAL = 0;																							//清除本次命令，防止重复执行
+				if(!GPIO_ReadOutputDataBit(GPIOD,GPIO_Pin_2)&0x01)			//35%按钮已经恢复
+				{
+					GPIO_ResetBits(GPIOD,GPIO_Pin_0); 
+					CMD_VAL = 0;						
+				}
+																					//清除本次命令，防止重复执行
 				break;			
 			case	0xB2:								//继电器2闭合指令
 				GPIO_SetBits(GPIOD,GPIO_Pin_1); 
@@ -568,13 +572,21 @@ void task1_task(void *p_arg)
 				GPIO_ResetBits(GPIOD,GPIO_Pin_1); 
 				CMD_VAL = 0;																							//清除本次命令，防止重复执行
 				break;					
-			case	0xB3:								//继电器3闭合指令
-				GPIO_SetBits(GPIOD,GPIO_Pin_2); 
-				CMD_VAL = 0;																							//清除本次命令，防止重复执行
+			case	0xB3:								//继电器3闭合指令，35%按钮
+				if(GPIO_ReadOutputDataBit(GPIOD,GPIO_Pin_0)&0x01)			//15%按钮已经按下
+				{
+					GPIO_SetBits(GPIOD,GPIO_Pin_2); 
+					CMD_VAL = 0;						
+				}
+																					//清除本次命令，防止重复执行
 				break;
 			case	0xC3:								//继电器3断开指令
-				GPIO_ResetBits(GPIOD,GPIO_Pin_2); 
-				CMD_VAL = 0;																							//清除本次命令，防止重复执行
+				if(!GPIO_ReadOutputDataBit(GPIOD,GPIO_Pin_4)&0x01)			//53%按钮已经恢复
+				{
+					GPIO_ResetBits(GPIOD,GPIO_Pin_2); 
+					CMD_VAL = 0;						
+				}
+																					//清除本次命令，防止重复执行
 				break;			
 			case	0xB4:								//继电器4闭合指令
 				GPIO_SetBits(GPIOD,GPIO_Pin_3); 
@@ -584,13 +596,21 @@ void task1_task(void *p_arg)
 				GPIO_ResetBits(GPIOD,GPIO_Pin_3); 
 				CMD_VAL = 0;																							//清除本次命令，防止重复执行
 				break;					
-			case	0xB5:								//继电器5闭合指令
-				GPIO_SetBits(GPIOD,GPIO_Pin_4); 
-				CMD_VAL = 0;																							//清除本次命令，防止重复执行
+			case	0xB5:								//继电器5闭合指令，53%按钮
+				if(GPIO_ReadOutputDataBit(GPIOD,GPIO_Pin_2)&0x01)			//35%按钮已经按下
+				{
+					GPIO_SetBits(GPIOD,GPIO_Pin_4); 
+					CMD_VAL = 0;					
+				}
+																						//清除本次命令，防止重复执行
 				break;
 			case	0xC5:								//继电器5断开指令
-				GPIO_ResetBits(GPIOD,GPIO_Pin_4); 
-				CMD_VAL = 0;																							//清除本次命令，防止重复执行
+				if(!GPIO_ReadOutputDataBit(GPIOD,GPIO_Pin_6)&0x01)			//91%按钮已经恢复
+				{
+					GPIO_ResetBits(GPIOD,GPIO_Pin_4); 
+					CMD_VAL = 0;						
+				}
+																					//清除本次命令，防止重复执行
 				break;			
 			case	0xB6:								//继电器6闭合指令
 				GPIO_SetBits(GPIOD,GPIO_Pin_5); 
@@ -600,9 +620,13 @@ void task1_task(void *p_arg)
 				GPIO_ResetBits(GPIOD,GPIO_Pin_5); 
 				CMD_VAL = 0;																							//清除本次命令，防止重复执行
 				break;					
-			case	0xB7:								//继电器7闭合指令
-				GPIO_SetBits(GPIOD,GPIO_Pin_6); 
-				CMD_VAL = 0;																							//清除本次命令，防止重复执行
+			case	0xB7:								//继电器7闭合指令，91%按钮
+				if(GPIO_ReadOutputDataBit(GPIOD,GPIO_Pin_4)&0x01)			//53%按钮已经按下
+				{
+					GPIO_SetBits(GPIOD,GPIO_Pin_6); 
+					CMD_VAL = 0;							
+				}
+																				//清除本次命令，防止重复执行
 				break;
 			case	0xC7:								//继电器7断开指令
 				GPIO_ResetBits(GPIOD,GPIO_Pin_6); 

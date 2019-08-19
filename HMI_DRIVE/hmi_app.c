@@ -283,7 +283,7 @@ void NotifyButton(uint16 screen_id, uint16 control_id, uint8  state)
 						CMD_VAL = 0X2A;				 //设备自检命令代号
 					break;
 			
-			 case 24:										 //继电器1控制闭合
+			 case 24:										 //继电器1控制闭合,15%按钮
 						LED3 = ~LED3;
 						CMD_VAL = 0xB1;
 					break;
@@ -291,7 +291,7 @@ void NotifyButton(uint16 screen_id, uint16 control_id, uint8  state)
 						LED3 = ~LED3;
 						CMD_VAL = 0xB2;
 					break;
-			 case 36:										 //继电器3控制闭合
+			 case 36:										 //继电器3控制闭合，35%按钮
 						LED3 = ~LED3;
 						CMD_VAL = 0xB3;
 					break;
@@ -299,7 +299,7 @@ void NotifyButton(uint16 screen_id, uint16 control_id, uint8  state)
 						LED3 = ~LED3;
 						CMD_VAL = 0xB4;
 					break;
-			 case 38:										 //继电器5控制闭合
+			 case 38:										 //继电器5控制闭合，53%按钮
 						LED3 = ~LED3;
 						CMD_VAL = 0xB5;
 					break;
@@ -307,7 +307,7 @@ void NotifyButton(uint16 screen_id, uint16 control_id, uint8  state)
 						LED3 = ~LED3;
 						CMD_VAL = 0xB6;
 					break;
-			 case 40:										 //继电器7控制闭合
+			 case 40:										 //继电器7控制闭合，91%按钮
 						LED3 = ~LED3;
 						CMD_VAL = 0xB7;
 					break;
